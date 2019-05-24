@@ -1,4 +1,4 @@
-const usersConnexion = require('./usersConnexion')
+const users = require('./users')
 
 
-module.exports = { usersConnexion }
+module.exports = { users }

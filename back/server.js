@@ -15,9 +15,10 @@ app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
 app.use(bodyParser.json())
 
-app.use("/usersConnexion", routes.usersConnexion)
+app.use("/users", routes.users)
 
 app.get("/", (req, res) => {
   res.status(200).send("je suis dans /")
 })
 
+app.listen(port, console.log(`http://localhost:${port}`))
