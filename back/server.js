@@ -1,3 +1,4 @@
+
 const express = require("express")
 const bodyParser = require("body-parser")
 const morgan = require("morgan")
@@ -5,7 +6,7 @@ const morgan = require("morgan")
 const routes = require("./routes/index")
 
 const app = express()
-const port = 3000
+const port = 4242
 
 app.use(morgan("dev"))
 app.use(morgan(":method :url :status :res[content-length] - :response-time "))
@@ -14,5 +15,9 @@ app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
 app.use(bodyParser.json())
 
+app.use("/usersConnexion", routes.usersConnexion)
 
-app.listen(port, console.log(`http://localhost:${port}`))
+app.get("/", (req, res) => {
+  res.status(200).send("je suis dans /")
+})
+
