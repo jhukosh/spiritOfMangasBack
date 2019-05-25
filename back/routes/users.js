@@ -12,7 +12,7 @@ router.use(bodyParser.urlencoded({
 
 router.use(bodyParser.json());
 
-// Querry
+// Query
 // Post into UsersDB
 
 router.post("/create-profile", (req, res) => {
