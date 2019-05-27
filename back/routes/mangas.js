@@ -18,11 +18,11 @@ router.use(bodyParser.json());
 
 // Post into Manga, creating new manga
 
-router.post("/manga"), (req,res) => {
+router.post("/manage-mangas"), (req,res) => {
 
   const mangaData = req.body;
 
-  connexion.query('INSERT INTO Mangas SET ?', mangaData, (err,result) => {
+  connexion.query('INSERT INTO mangas SET ?', [mangaData], (err,result) => {
     
     if (err) {
 
@@ -37,12 +37,12 @@ router.post("/manga"), (req,res) => {
 
 // Delete a Manga in Mangas
 
-router.delete("/manga", (req, res) => {
+router.delete("/manage-mangas", (req, res) => {
 
   const mangaId = req.query.id
   console.log(userId)
 
-  connexion.query('DELETE FROM Manga WHERE id=' + mangaId, (err, results) => {
+  connexion.query('DELETE FROM manga WHERE id=' + mangaId, (err, results) => {
 
 
     if (err) {
@@ -56,3 +56,43 @@ router.delete("/manga", (req, res) => {
   });
 
 })
+
+// Fetch data of all manga in Mangas
+
+router.get("/manage-mangas", (req, res) => {
+
+  connexion.query('SELECT * FROM mangas', (err, results) => {
+
+    if (err) {
+
+      console.log(err);
+      res.status(500).send("Erreur lors de l'affichage de tous les mangas");
+    } else {
+
+      res.sendStatus(200);
+    }
+  });
+
+})
+
+// Fetch data by ID of one user in UsersDB
+
+router.get("/manage-mangas/:id", (req, res) => {
+
+  const mangaId = req.body.id
+
+  connexion.query('SELECT * FROM mangas WHERE id=' + mangaId, (err, results) => {
+
+    if (err) {
+
+      console.log(err);
+      res.status(500).send("Erreur lors de l'affichage d'un manga");
+    } else {
+
+      res.sendStatus(200);
+    }
+  });
+
+})
+
+module.exports = router
