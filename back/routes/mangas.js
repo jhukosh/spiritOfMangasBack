@@ -21,6 +21,7 @@ router.use(bodyParser.json());
 router.post("/manage-mangas"), (req,res) => {
 
   const mangaData = req.body;
+  console.log(mangaData);
 
   connexion.query('INSERT INTO mangas SET ?', [mangaData], (err,result) => {
     
