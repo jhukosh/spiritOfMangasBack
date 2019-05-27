@@ -50,7 +50,7 @@ router.delete("/delete-profile", (req, res) => {
     if (err) {
 
       console.log(err);
-      res.status(500).send("Erreur lors de la création d'un utilisateur");
+      res.status(500).send("Erreur lors de la suppression de l'utilisateur");
     } else {
 
       res.sendStatus(200);
