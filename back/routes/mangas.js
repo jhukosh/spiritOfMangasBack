@@ -12,4 +12,4 @@ router.use(bodyParser.urlencoded({
 
 router.use(bodyParser.json());
 
-// Query
+module.exports = router
