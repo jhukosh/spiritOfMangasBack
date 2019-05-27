@@ -30,7 +30,7 @@ router.post("/create-profile", (req, res) => {
       console.log(err);
       res.status(500).send("Erreur lors de la création d'un utilisateur");
     } else {
-
+      console.log(results);
       res.sendStatus(200);
     }
   });
@@ -52,7 +52,7 @@ router.delete("/manage-users", (req, res) => {
       console.log(err);
       res.status(500).send("Erreur lors de la création d'un utilisateur");
     } else {
-
+      console.log(results);
       res.sendStatus(200);
     }
   });
@@ -70,7 +70,7 @@ router.get("/manage-users", (req, res) => {
       console.log(err);
       res.status(500).send("Erreur lors de l'affichage de tous les utilisateurs");
     } else {
-
+      console.log(results);
       res.sendStatus(200);
     }
   });
@@ -90,6 +90,7 @@ router.get("/manage-users/:id", (req, res) => {
       console.log(err);
       res.status(500).send("Erreur lors de l'affichage d'un utilisateur");
     } else {
+      console.log(results);
       res.json(results);
       res.sendStatus(200);
     }
@@ -106,14 +107,14 @@ router.put("/edit-profile", (req, res) => {
   const userId = req.body.id
   const newUserPseudo = req.body.pseudo
 
-  connexion.query('UPDATE users SET pseudo ='+newUserPseudo + ' WHERE id='+userId, (err, results) => {
+  connexion.query('UPDATE users SET pseudo =' + newUserPseudo + ' WHERE id=' + userId, (err, results) => {
 
     if (err) {
 
       console.log(err);
       res.status(500).send("Erreur lors de la modification de données");
     } else {
-
+      console.log(results);
       res.sendStatus(200);
     }
   });
