@@ -30,19 +30,39 @@ router.post("/manage-publics", (req, res) => {
       console.log(err);
       res.status(500).send("Erreur lors de la création d'un public");
     } else {
-
+      console.log(results);
       res.sendStatus(200);
     }
   });
 
 })
 
+// PUT OK
+
+router.put("/manage-publics", (req, res) => {
+
+    const publicId = req.body.id
+    const publicData = req.body
+  
+    connexion.query('UPDATE publics SET ? WHERE id=' + publicId, [publicData], (err, results) => {
+  
+      if (err) {
+  
+        console.log(err);
+        res.status(500).send("Erreur lors de la modification du public");
+      } else {
+        console.log(results);
+        res.sendStatus(200);
+      }
+    });
+  
+  })
+
 // DELETE OK
 
 router.delete("/manage-publics", (req, res) => {
 
   const publicId = req.body.id
-  console.log(publicId)
 
   connexion.query('DELETE FROM publics WHERE id=' + publicId, (err, results) => {
 
@@ -52,7 +72,7 @@ router.delete("/manage-publics", (req, res) => {
       console.log(err);
       res.status(500).send("Erreur lors de la suppression d'un public");
     } else {
-
+      console.log(results);
       res.sendStatus(200);
     }
   });
@@ -77,20 +97,22 @@ router.get("/manage-publics", (req, res) => {
 
 })
 
-// FETCH data by NAME OK
+// FETCH data by id OK
 
-router.get("/manage-publics", (req, res) => {
+router.get("/manage-publics/:id", (req, res) => {
 
-  const publicName = req.body.name
+  const publicId = req.params.id
+  console.log(publicId);
 
-  connexion.query('SELECT * FROM publics WHERE id=' + publicName, (err, results) => {
+  connexion.query('SELECT * FROM publics WHERE id=' + publicId, (err, results) => {
 
     if (err) {
 
       console.log(err);
       res.status(500).send("Erreur lors de l'affichage d'un public");
     } else {
-
+      console.log(results);
+      res.json(results);
       res.sendStatus(200);
     }
   });
