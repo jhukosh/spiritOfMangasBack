@@ -39,9 +39,9 @@ router.post("/create-profile", (req, res) => {
 
 // Delete an user in UsersDB
 
-router.delete("/delete-profile", (req, res) => {
+router.delete("/manage-users", (req, res) => {
 
-  const userId = req.query.id
+  const userId = req.body.id
   console.log(userId)
 
   connexion.query('DELETE FROM Users WHERE id=' + userId, (err, results) => {
@@ -61,7 +61,7 @@ router.delete("/delete-profile", (req, res) => {
 
 // Fetch data of all users in UsersDB
 
-router.get("/display-allProfile", (req, res) => {
+router.get("/manage-users", (req, res) => {
 
   connexion.query('SELECT * FROM Users', (err, results) => {
 
@@ -79,7 +79,7 @@ router.get("/display-allProfile", (req, res) => {
 
 // Fetch data by ID of one user in UsersDB
 
-router.get("/display-profile/:id", (req, res) => {
+router.get("/manage-users/:id", (req, res) => {
 
   const userId = req.body.id
 
@@ -101,7 +101,7 @@ router.get("/display-profile/:id", (req, res) => {
 // IMPORTANT : new value MUST in req must be push with the '' to match MYSQL syntax
 // PUT method is better than POST when working with existing value
 
-router.put("/change-profile", (req, res) => {
+router.put("/edit-profile", (req, res) => {
 
   const userId = req.body.id
   const newUserPseudo = req.body.pseudo
