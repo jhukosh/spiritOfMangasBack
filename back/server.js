@@ -15,6 +15,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
 app.use(bodyParser.json())
 
+app.use("/genres", routes.genres)
 app.use("/users", routes.users)
 
 app.get("/", (req, res) => {

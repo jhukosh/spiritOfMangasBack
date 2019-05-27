@@ -41,7 +41,7 @@ router.post("/create-profile", (req, res) => {
 
 router.delete("/delete-profile", (req, res) => {
 
-  const userId = req.query.id
+  const userId = req.body.id
   console.log(userId)
 
   connexion.query('DELETE FROM Users WHERE id=' + userId, (err, results) => {
