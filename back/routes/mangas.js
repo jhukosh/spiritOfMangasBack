@@ -21,13 +21,14 @@ router.use(bodyParser.json());
 router.post("/manage-mangas"), (req,res) => {
 
   const mangaData = req.body;
+  console.log(mangaData);
 
   connexion.query('INSERT INTO mangas SET ?', [mangaData], (err,result) => {
     
     if (err) {
 
       console.log(err);
-      res.status(500).send("Erreur lors de la création d'un utilisateur");
+      res.status(500).send("Erreur lors de la création d'un manga");
     } else {
 
       res.sendStatus(200);
