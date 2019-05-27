@@ -16,7 +16,7 @@ router.use(bodyParser.json());
 // ****************** Query ******************
 // *******************************************
 
-// Post into UsersDB, creating new user
+// Post into UsersDB, creating new user 
 
 router.post("/create-profile", (req, res) => {
 
