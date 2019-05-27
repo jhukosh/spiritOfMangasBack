@@ -85,7 +85,7 @@ CREATE TABLE IF NOT EXISTS `spiritofmanga`.`mangas` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = DEFAULT;
 
-CREATE INDEX `fk_Mangas_Etats1_idx` ON `myspiritofmanga`.`mangas` (`states_id` ASC);
+CREATE INDEX `fk_Mangas_Etats1_idx` ON `spiritofmanga`.`mangas` (`states_id` ASC);
 
 CREATE INDEX `fk_Mangas_Public1_idx` ON `spiritofmanga`.`mangas` (`publics_id` ASC);
 
