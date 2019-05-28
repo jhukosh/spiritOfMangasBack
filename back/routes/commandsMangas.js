@@ -5,7 +5,6 @@ const connexion = require('../conf');
 // Body parser module
 
 const bodyParser = require('body-parser');
-// Support JSON-encoded bodies
 router.use(bodyParser.urlencoded({
   extended: true
 }));
@@ -16,9 +15,9 @@ router.use(bodyParser.json());
 // ****************** Query ******************
 // *******************************************
 
-// Fetch data of all mangaOrders in mangasOrders
+// Fetch all OK
 
-router.get('/manage-commandManga',(req,res) => {
+router.get('/manage-commands-mangas',(req,res) => {
 
     connexion.query('SELECT * FROM mangasOrders', (err, results) => {
 
@@ -33,11 +32,11 @@ router.get('/manage-commandManga',(req,res) => {
     });
 })
 
-// Fetch data by ID of one user in UsersDB
+// Fetch data by ID OK
 
-router.get("/manage-commandManga/:id", (req, res) => {
+router.get("/manage-commands-mangas/:id", (req, res) => {
 
-    const mangaOrderId = req.body.id
+    const mangaOrderId = req.params.id
   
     connexion.query('SELECT * FROM mangasOrders WHERE id=' + mangaOrderId, (err, results) => {
   
@@ -46,16 +45,16 @@ router.get("/manage-commandManga/:id", (req, res) => {
         console.log(err);
         res.status(500).send("Erreur lors de l'affichage d'un mangaOrders");
       } else {
-        
+        console.log(results);
         res.sendStatus(200);
       }
     });
   
 })
 
-// DELETE 
+// DELETE OK
 
-router.delete("/manage-commandManga", (req, res) => {
+router.delete("/manage-commands-mangas", (req, res) => {
 
     const mangaOrderId = req.body.id
   
@@ -67,7 +66,6 @@ router.delete("/manage-commandManga", (req, res) => {
         console.log(err);
         res.status(500).send("Erreur lors de la suppression d'une série");
       } else {
-        console.log(results);
         res.sendStatus(200);
       }
     });
@@ -75,12 +73,11 @@ router.delete("/manage-commandManga", (req, res) => {
 })
 
 
-// POST OK 
+// POST OK but server crashes after posting, some issue with the header to fix
 
-router.post("/manage-commandManga", (req, res) => {
+router.post("/manage-commands-mangas", (req, res) => {
 
 const mangaOrderData = req.body;
-console.log(seriesData);
 
 connexion.query('INSERT INTO mangasOrders SET ?', [mangaOrderData], (err, results) => {
 
@@ -91,6 +88,7 @@ connexion.query('INSERT INTO mangasOrders SET ?', [mangaOrderData], (err, result
     res.status(500).send("Erreur lors de la création d'une série");
     } else {
     console.log(results);
+    res.json(results);
     res.sendStatus(200);
     }
 });
@@ -99,7 +97,7 @@ connexion.query('INSERT INTO mangasOrders SET ?', [mangaOrderData], (err, result
 
 // PUT OK
 
-router.put("/manage-commandManga", (req, res) => {
+router.put("/manage-commands-mangas", (req, res) => {
 
     const mangaOrderId = req.body.id
     const mangaOrderData = req.body
