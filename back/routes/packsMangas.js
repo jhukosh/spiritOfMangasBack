@@ -15,9 +15,9 @@ router.use(bodyParser.json());
 // ****************** Query ******************
 // *******************************************
 
-// Post into packManga, creating new packmanga
+// Post into packManga, creating new packmanga OK
 
-router.post("/create-packsMangas", (req, res) => {
+router.post("/create-packs-mangas", (req, res) => {
 
     const packsMangasData = req.body;
     console.log(packsMangasData);
@@ -37,9 +37,9 @@ router.post("/create-packsMangas", (req, res) => {
   
   })
 
-// Delete a pack of manga in packMangas
+// Delete a pack of manga in packMangas OK
 
-router.delete("/manage-packsMangas", (req, res) => {
+router.delete("/manage-packs-mangas", (req, res) => {
 
   const packsMangasId = req.body.id
   console.log(packsMangasId)
@@ -59,9 +59,9 @@ router.delete("/manage-packsMangas", (req, res) => {
 
 })
   
-// Select * packs Mangas
+// Select * packs Mangas OK
 
-router.get("/manage-packsMangas", (req, res) => {
+router.get("/manage-packs-mangas", (req, res) => {
 
   connexion.query('SELECT * FROM packsMangas', (err, results) => {
 
@@ -71,18 +71,19 @@ router.get("/manage-packsMangas", (req, res) => {
       res.status(500).send("Erreur lors de l'affichage de tous les packs de Manga");
     } else {
       console.log(results);
+      res.json(results);
       res.sendStatus(200);
     }
   });
 
 })
 
-// Select packs Mangas by ID
+// Select packs Mangas by ID OK
 
 
-router.get("/manage-packsMangas/:id", (req, res) => {
+router.get("/manage-packs-mangas/:id", (req, res) => {
 
-  const packsMangasId = req.body.id
+  const packsMangasId = req.params.id
 
   connexion.query('SELECT * FROM packsMangas WHERE id=' + packsMangasId, (err, results) => {
 
@@ -91,18 +92,18 @@ router.get("/manage-packsMangas/:id", (req, res) => {
       console.log(err);
       res.status(500).send("Erreur lors de l'affichage d'un pack de manga");
     } else {
-
+      console.log(results);
+      res.json(results);
       res.sendStatus(200);
     }
   });
 
 })
 
-// UPDATE 
-// IMPORTANT : new value MUST in req must be push with the '' to match MYSQL syntax
+// UPDATE OK
 // PUT method is better than POST when working with existing value
 
-router.put("/manage-packsMangas", (req, res) => {
+router.put("/manage-packs-mangas", (req, res) => {
 
   const packsMangasId = req.body.id
   const packsMangasData = req.body
@@ -114,7 +115,7 @@ router.put("/manage-packsMangas", (req, res) => {
       console.log(err);
       res.status(500).send("Erreur lors de la modification de données d'un pack de manga");
     } else {
-
+      console.log(results);
       res.sendStatus(200);
     }
   });

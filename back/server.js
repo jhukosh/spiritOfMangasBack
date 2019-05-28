@@ -15,7 +15,10 @@ app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
 app.use(bodyParser.json())
 
+app.use("/genres", routes.genres)
 app.use("/users", routes.users)
+app.use("/states", routes.states)
+app.use("/types", routes.types)
 app.use("/mangas", routes.mangas)
 app.use("/packs", routes.packs)
 app.use("/publics", routes.publics)
