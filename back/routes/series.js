@@ -102,7 +102,6 @@ router.get("/manage-series", (req, res) => {
 router.get("/manage-series/:id", (req, res) => {
 
   const serieId = req.params.id
-  console.log(serieId);
 
   connexion.query('SELECT * FROM series WHERE id=' + serieId, (err, results) => {
 
