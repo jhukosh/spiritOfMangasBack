@@ -22,7 +22,7 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 -- Table `spiritofmanga`.`states`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `spiritofmanga`.`states` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
@@ -32,7 +32,7 @@ ENGINE = InnoDB;
 -- Table `spiritofmanga`.`publics`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `spiritofmanga`.`publics` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
@@ -42,7 +42,7 @@ ENGINE = InnoDB;
 -- Table `spiritofmanga`.`types`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `spiritofmanga`.`types` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
@@ -52,7 +52,7 @@ ENGINE = InnoDB;
 -- Table `spiritofmanga`.`series`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `spiritofmanga`.`series` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `nameSeries` VARCHAR(45) NOT NULL,
   `types_id` INT NOT NULL,
   PRIMARY KEY (`id`))
@@ -178,7 +178,7 @@ ENGINE = InnoDB;
 -- Table `spiritofmanga`.`packsOrders`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `spiritofmanga`.`packsOrders` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `users_id` INT NOT NULL,
   `packs_id` INT NOT NULL,
   `date` DATE NOT NULL,
