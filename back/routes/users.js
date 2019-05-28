@@ -24,7 +24,6 @@ router.post("/create-profile", (req, res) => {
   
   connexion.query('INSERT INTO Users SET ?', userData, (err, results) => {
 
-
     if (err) {
 
       console.log(err);
@@ -45,7 +44,6 @@ router.delete("/delete-profile", (req, res) => {
   console.log(userId)
 
   connexion.query('DELETE FROM Users WHERE id=' + userId, (err, results) => {
-
 
     if (err) {
 
