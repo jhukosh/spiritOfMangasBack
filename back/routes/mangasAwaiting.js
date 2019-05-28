@@ -17,7 +17,7 @@ router.use(bodyParser.json());
 
 // Post into UsersDB, creating new user OK
 
-router.post("/manage-wishlist-mangas", (req, res) => {
+router.post("/manage-mangas-awaiting", (req, res) => {
 
     const wishListMangaData = req.body;
     
@@ -38,7 +38,7 @@ router.post("/manage-wishlist-mangas", (req, res) => {
 
 // PUT OK
 
-router.put("/manage-wishlist-mangas", (req, res) => {
+router.put("/manage-mangas-awaiting", (req, res) => {
 
   const wishListMangasId = req.body.id
   const wishListData = req.body
@@ -58,7 +58,7 @@ router.put("/manage-wishlist-mangas", (req, res) => {
 
 // Fetch data of all mangasAwaiting OK
 
-router.get("/manage-wishlist-mangas", (req, res) => {
+router.get("/manage-mangas-awaiting", (req, res) => {
 
   connexion.query('SELECT * FROM mangasAwaiting', (err, results) => {
 
@@ -77,7 +77,7 @@ router.get("/manage-wishlist-mangas", (req, res) => {
 
 // Fetch data by ID of one mangaOrderAwaiting
 
-router.get("/manage-wishlist-mangas/:id", (req, res) => {
+router.get("/manage-mangas-awaiting/:id", (req, res) => {
 
   const mangaOrderAwaitingId = req.params.id
 
@@ -98,7 +98,7 @@ router.get("/manage-wishlist-mangas/:id", (req, res) => {
 
 // Delete an user in UsersDB OK
 
-router.delete("/manage-wishlist-mangas", (req, res) => {
+router.delete("/manage-mangas-awaiting", (req, res) => {
 
   const mangaOrderAwaitingId = req.body.id
 
