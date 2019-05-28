@@ -5,7 +5,6 @@ const connexion = require('../conf');
 // Body parser module
 
 const bodyParser = require('body-parser');
-// Support JSON-encoded bodies
 router.use(bodyParser.urlencoded({
   extended: true
 }));
@@ -16,7 +15,7 @@ router.use(bodyParser.json());
 // ****************** Query ******************
 // *******************************************
 
-// Post into etatsDB, creating new etat
+// Post into states, creating new states OK
 
 router.post("/manage-states", (req, res) => {
 
@@ -36,12 +35,11 @@ router.post("/manage-states", (req, res) => {
 })
 
 
-// Delete an etat
+// Delete a state OK
 
 router.delete("/manage-states", (req, res) => {
 
   const stateId = req.body.id
-  console.log(stateId)
 
   connexion.query('DELETE FROM states WHERE id='+ stateId, (err, results) => {
 
@@ -49,14 +47,14 @@ router.delete("/manage-states", (req, res) => {
       console.log(err);
       res.status(500).send("Erreur lors de la suppression de l'état");
     } else {
-      console.log("ça fonctionne bien")
+      console.log(results)
       res.sendStatus(200);
     }
 
   });
 })
 
-// Select all etats
+// Select all states OK
 
 router.get("/manage-states", (req,res) => {
   connexion.query('SELECT * FROM states', (err, results) => {
@@ -72,11 +70,11 @@ router.get("/manage-states", (req,res) => {
   });
 })
 
-// Select an etat by Id 
+// Select an etat by Id OK
 
-router.get("/manage-state", (req,res) => {
+router.get("/manage-states/:id", (req,res) => {
 
-  const stateId = req.body.id
+  const stateId = req.params.id
 
      connexion.query('SELECT * FROM states WHERE id=' + stateId, (err, results) => {
 
@@ -84,21 +82,21 @@ router.get("/manage-state", (req,res) => {
          console.log(err);
          res.status(500).send("Erreur lors de l'affichage de l'état")
        } else {
-         console.log(stateId)
+         console.log(results)
+         res.json(results);
          res.sendStatus(200);
        }
 
      });
     })
 
-// Change name of etat
-// Add '' around the value when you need to test with postman :)
+// Change name of etat OK (requires to write the id of the item to modify)
 
 router.put("/manage-states", (req,res) => {
-  const stateId = req.body.id
-  const newStateName = req.body.name
+  const stateId = req.body.id;
+  const stateUpdate = req.body;
 
-  connexion.query('UPDATE states SET name=' + newStateName + 'WHERE id='+stateId, (err, results) => {
+  connexion.query('UPDATE states SET ? WHERE id=' + stateId, stateUpdate, (err, results) => {
 
     if (err) {
       console.log(err);

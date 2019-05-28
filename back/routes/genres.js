@@ -48,7 +48,7 @@ router.post("/manage-genres", (req, res) => {
         console.log(err);
         res.status(500).send("Erreur lors de la suppression du genre");
       } else {
-        console.log("ça fonctionne bien")
+        console.log(results)
         res.sendStatus(200);
       }
 
@@ -64,7 +64,7 @@ router.post("/manage-genres", (req, res) => {
         console.log(err);
         res.status(500).send("Erreur lors de l'affichage des genres")
       } else {
-        console.log("ça fonctionne bien")
+        console.log(results)
         res.sendStatus(200);
       }
 
@@ -84,7 +84,7 @@ router.post("/manage-genres", (req, res) => {
            console.log(err);
            res.status(500).send("Erreur lors de l'affichage du genre")
          } else {
-           console.log(genreId)
+           console.log(results)
            res.sendStatus(200);
          }
 
