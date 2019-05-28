@@ -72,7 +72,6 @@ router.delete("/manage-publics", (req, res) => {
       console.log(err);
       res.status(500).send("Erreur lors de la suppression d'un public");
     } else {
-      console.log(results);
       res.sendStatus(200);
     }
   });

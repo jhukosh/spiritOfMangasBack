@@ -5,7 +5,6 @@ const connexion = require('../conf');
 // Body parser module
 
 const bodyParser = require('body-parser');
-// Support JSON-encoded bodies
 router.use(bodyParser.urlencoded({
   extended: true
 }));
@@ -16,9 +15,9 @@ router.use(bodyParser.json());
 // ****************** Query ******************
 // *******************************************
 
-// Post into UsersDB, creating new user 
+// Post into UsersDB, creating new user OK
 
-router.post("/manage-wishListManga", (req, res) => {
+router.post("/manage-wishlist-mangas", (req, res) => {
 
     const wishListMangaData = req.body;
     
@@ -37,9 +36,29 @@ router.post("/manage-wishListManga", (req, res) => {
   
 })
 
-// Fetch data of all mangasAwaiting 
+// PUT OK
 
-router.get("/manage-wishListManga", (req, res) => {
+router.put("/manage-wishlist-mangas", (req, res) => {
+
+  const wishListMangasId = req.body.id
+  const wishListData = req.body
+
+  connexion.query('UPDATE mangasAwaiting SET ? WHERE id='+ wishListMangasId, [wishListData], (err, results) => {
+
+    if (err) {
+
+      console.log(err);
+      res.status(500).send("Erreur lors de la modification de données d'un manga en attente");
+    } else {
+      console.log(results);
+      res.sendStatus(200);
+    }
+  });
+})
+
+// Fetch data of all mangasAwaiting OK
+
+router.get("/manage-wishlist-mangas", (req, res) => {
 
   connexion.query('SELECT * FROM mangasAwaiting', (err, results) => {
 
@@ -49,6 +68,7 @@ router.get("/manage-wishListManga", (req, res) => {
       res.status(500).send("Erreur lors de l'affichage de tous les mangas en attente");
     } else {
       console.log(results);
+      res.json(results);
       res.sendStatus(200);
     }
   });
@@ -57,7 +77,7 @@ router.get("/manage-wishListManga", (req, res) => {
 
 // Fetch data by ID of one mangaOrderAwaiting
 
-router.get("/manage-wishListManga/:id", (req, res) => {
+router.get("/manage-wishlist-mangas/:id", (req, res) => {
 
   const mangaOrderAwaitingId = req.params.id
 
@@ -76,12 +96,11 @@ router.get("/manage-wishListManga/:id", (req, res) => {
 
 })
 
-// Delete an user in UsersDB
+// Delete an user in UsersDB OK
 
-router.delete("/manage-wishListManga", (req, res) => {
+router.delete("/manage-wishlist-mangas", (req, res) => {
 
   const mangaOrderAwaitingId = req.body.id
-  console.log(mangaOrderAwaitingId)
 
   connexion.query('DELETE FROM mangasAwaiting WHERE id=' + mangaOrderAwaitingId, (err, results) => {
 
@@ -91,7 +110,6 @@ router.delete("/manage-wishListManga", (req, res) => {
       console.log(err);
       res.status(500).send("Erreur lors de la suppresion d'un orderMangaAwaiting");
     } else {
-      console.log(results);
       res.sendStatus(200);
     }
   });

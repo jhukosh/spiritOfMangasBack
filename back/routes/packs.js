@@ -29,7 +29,7 @@ router.post("/manage-packs", (req, res) => {
       console.log(err);
       res.status(500).send("Erreur lors de la création d'un pack");
     } else {
-
+      console.log(results);
       res.sendStatus(200);
     }
   });
@@ -51,7 +51,6 @@ router.delete("/manage-packs", (req, res) => {
       console.log(err);
       res.status(500).send("Erreur lors de la suppression d'un pack");
     } else {
-
       res.sendStatus(200);
     }
   });
@@ -89,7 +88,7 @@ router.get("/manage-packs/:id", (req, res) => {
       console.log(err);
       res.status(500).send("Erreur lors de l'affichage d'un pack");
     } else {
-
+      console.log(results);
       res.sendStatus(200);
     }
   });
@@ -112,7 +111,7 @@ router.put("/manage-packs", (req, res) => {
       console.log(err);
       res.status(500).send("Erreur lors de la modification de données d'un pack");
     } else {
-
+      console.log(results);
       res.sendStatus(200);
     }
   });
