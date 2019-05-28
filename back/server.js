@@ -20,6 +20,7 @@ app.use("/mangas", routes.mangas)
 app.use("/packs", routes.packs)
 app.use("/publics", routes.publics)
 app.use("/series", routes.series)
+app.use("/packsOrders", routes.packsOrders)
 
 app.get("/", (req, res) => {
   res.status(200).send("je suis dans /")
