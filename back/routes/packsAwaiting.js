@@ -68,7 +68,6 @@ router.get("/manage-packs-awaiting", (req, res) => {
       console.log(err);
       res.status(500).send("Erreur lors de l'affichage de tous les pack en attente");
     } else {
-      console.log(results);
       res.sendStatus(200);
     }
   });
@@ -79,7 +78,7 @@ router.get("/manage-packs-awaiting", (req, res) => {
 
 router.get("/manage-packs-awaiting/:id", (req, res) => {
 
-  const packsAwaitingId = req.body.id
+  const packsAwaitingId = req.params.id
 
   connexion.query('SELECT * FROM packsAwaiting WHERE id=' + packsAwaitingId, (err, results) => {
 
@@ -89,6 +88,7 @@ router.get("/manage-packs-awaiting/:id", (req, res) => {
       res.status(500).send("Erreur lors de l'affichage d'un pack en attente");
     } else {
       console.log(results);
+      res.json(results);
       res.sendStatus(200);
     }
   });
@@ -96,8 +96,6 @@ router.get("/manage-packs-awaiting/:id", (req, res) => {
 })
 
 // UPDATE OK
-// IMPORTANT : new value MUST in req must be push with the '' to match MYSQL syntax
-// PUT method is better than POST when working with existing value
 
 router.put("/manage-packs-awaiting", (req, res) => {
 
