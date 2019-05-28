@@ -26,6 +26,7 @@ app.use("/series", routes.series)
 app.use("/commandsMangas", routes.commandsMangas)
 app.use("/packsOrders", routes.packsOrders)
 app.use("/packsMangas", routes.packsMangas)
+app.use("/packsAwaiting", routes.packsAwaiting)
 
 app.get("/", (req, res) => {
   res.status(200).send("je suis dans /")
