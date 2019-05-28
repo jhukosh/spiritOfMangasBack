@@ -5,7 +5,6 @@ const connexion = require('../conf');
 // Body parser module
 
 const bodyParser = require('body-parser');
-// Support JSON-encoded bodies
 router.use(bodyParser.urlencoded({
   extended: true
 }));
@@ -13,10 +12,10 @@ router.use(bodyParser.urlencoded({
 router.use(bodyParser.json());
 
 // *******************************************
-// ****************** Query ******************
+// ****************** Queries ******************
 // *******************************************
 
-// Post into GenreDB, creating new genre
+// Post into GenreDB, creating new genre OK
 
 router.post("/manage-genres", (req, res) => {
 
@@ -28,7 +27,7 @@ router.post("/manage-genres", (req, res) => {
       console.log(err);
       res.status(500).send("Erreur lors de la création du genre");
     } else {
-      console.log("ça fonctionne bien")
+      console.log(results);
       res.sendStatus(200); 
     }
   });
@@ -36,7 +35,7 @@ router.post("/manage-genres", (req, res) => {
 })
 
 
-// Delete a genre in genreDB
+// Delete a genre in genreDB OK
 
   router.delete("/manage-genres", (req, res) => {
 
@@ -56,7 +55,7 @@ router.post("/manage-genres", (req, res) => {
     });
   })
 
-// Select All genres 
+// Select All genres OK
 
   router.get("/manage-genres", (req,res) => {
     connexion.query('SELECT * FROM genres', (err, results) => {
@@ -73,7 +72,7 @@ router.post("/manage-genres", (req, res) => {
   })
 
 
-// Select a genre by id  
+// Select a genre by id OK
 
   router.get("/manage-genre", (req,res) => {
 
@@ -92,19 +91,19 @@ router.post("/manage-genres", (req, res) => {
        });
      })
 
-// Change name of an genre in GenresDB
+// Change name of an genre in GenresDB OK
 
   router.put("/manage-genres", (req,res) => {
     const genreId = req.body.id
-    const newGenreName = req.body.name
+    const genreUpdate = req.body
 
-    connexion.query('UPDATE genres SET name=' + newGenreName + 'WHERE id='+genreId, (err, results) => {
+    connexion.query('UPDATE genres SET ? WHERE id=' + genreId, [genreUpdate], (err, results) => {
 
       if (err) {
         console.log(err);
         res.status(500).send("Erreur lors de la modification");
       } else {
-        console.log('je crois bien que ca marche');
+        console.log(results);
         res.sendStatus(200)
       }
 
