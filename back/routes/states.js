@@ -27,7 +27,7 @@ router.post("/manage-states", (req, res) => {
         console.log(err);
         res.status(500).send("Erreur lors de la création de l'état");
       } else {
-        console.log("ça fonctionne bien")
+        console.log(results);
         res.sendStatus(200); 
       }
 
@@ -47,7 +47,6 @@ router.delete("/manage-states", (req, res) => {
       console.log(err);
       res.status(500).send("Erreur lors de la suppression de l'état");
     } else {
-      console.log(results)
       res.sendStatus(200);
     }
 
@@ -63,7 +62,7 @@ router.get("/manage-states", (req,res) => {
       console.log(err);
       res.status(500).send("Erreur lors de l'affichage des états")
     } else {
-      console.log("ça fonctionne bien")
+      console.log(results)
       res.sendStatus(200);
     }
 
@@ -102,7 +101,7 @@ router.put("/manage-states", (req,res) => {
       console.log(err);
       res.status(500).send("Erreur lors de la modification");
     } else {
-      console.log('je crois bien que ca marche');
+      console.log(results);
       res.sendStatus(200)
     }
 

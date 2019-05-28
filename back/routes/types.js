@@ -5,7 +5,6 @@ const connexion = require('../conf');
 // Body parser module
 
 const bodyParser = require('body-parser');
-// Support JSON-encoded bodies
 router.use(bodyParser.urlencoded({
   extended: true
 }));
@@ -16,26 +15,26 @@ router.use(bodyParser.json());
 // ****************** Query ******************
 // *******************************************
 
-// Post into TypesDB, creating new Type
+// Post into Types, creating new Type OK
 
 router.post("/manage-types", (req, res) => {
 
     const typeData = req.body;
   
-    connexion.query('INSERT INTO types SET ?', typeData, (err, results) => {
+    connexion.query('INSERT INTO types SET ?', [typeData], (err, results) => {
   
       if (err) {
         console.log(err);
         res.status(500).send("Erreur lors de la création du type");
       } else {
-        console.log("ça fonctionne bien")
+        console.log(results);
         res.sendStatus(200); 
       }
     });
   
   })
 
-// Delete an Type in TypesDB
+// Delete an Type in TypesDB OK
 
 
 router.delete("/manage-types", (req, res) => {
@@ -49,14 +48,13 @@ router.delete("/manage-types", (req, res) => {
         console.log(err);
         res.status(500).send("Erreur lors de la suppression du type");
       } else {
-        console.log("ça fonctionne bien")
         res.sendStatus(200);
       }
 
     });
   })
 
-// Select All Types
+// Select All Types OK
 
 router.get("/manage-types", (req,res) => {
     connexion.query('SELECT * FROM types', (err, results) => {
@@ -65,7 +63,7 @@ router.get("/manage-types", (req,res) => {
         console.log(err);
         res.status(500).send("Erreur lors de l'affichage des types")
       } else {
-        console.log("ça fonctionne bien")
+        console.log(results);
         res.sendStatus(200);
       }
 
@@ -73,19 +71,20 @@ router.get("/manage-types", (req,res) => {
   })
     
 
-// Select a type by id  
+// Select a type by id Ok
 
-router.get("/manage-type", (req,res) => {
+router.get("/manage-types/:id", (req,res) => {
 
-    const typeId = req.body.id
+    const typeId = req.params.id
 
-       connexion.query('SELECT * FROM types WHERE id=' + typeId, (err, results) => {
+       connexion.query('SELECT * FROM types WHERE id =' + typeId, (err, results) => {
 
          if (err) {
            console.log(err);
            res.status(500).send("Erreur lors de l'affichage du type")
          } else {
-           console.log(typeId)
+           console.log(results)
+           res.json(results);
            res.sendStatus(200);
          }
 
@@ -107,7 +106,7 @@ router.put("/manage-types", (req,res) => {
         console.log(err);
         res.status(500).send("Erreur lors de la modification");
       } else {
-        console.log('je crois bien que ca marche');
+        console.log(results);
         res.sendStatus(200)
       }
 

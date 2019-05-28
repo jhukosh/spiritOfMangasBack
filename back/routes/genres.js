@@ -48,7 +48,6 @@ router.post("/manage-genres", (req, res) => {
         console.log(err);
         res.status(500).send("Erreur lors de la suppression du genre");
       } else {
-        console.log(results)
         res.sendStatus(200);
       }
 
