@@ -3,7 +3,7 @@ const express = require("express")
 const bodyParser = require("body-parser")
 const morgan = require("morgan")
 
-const routes = require("./routes/index")
+const routes = require("./routes/")
 
 const app = express()
 const port = 4242
@@ -16,6 +16,10 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 app.use("/users", routes.users)
+app.use("/mangas", routes.mangas)
+app.use("/packs", routes.packs)
+app.use("/publics", routes.publics)
+app.use("/series", routes.series)
 
 app.get("/", (req, res) => {
   res.status(200).send("je suis dans /")
