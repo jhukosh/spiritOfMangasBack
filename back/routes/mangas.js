@@ -5,7 +5,6 @@ const connexion = require('../conf');
 // Body parser module
 
 const bodyParser = require('body-parser');
-// Support JSON-encoded bodies
 router.use(bodyParser.urlencoded({
   extended: true
 }));
@@ -18,23 +17,26 @@ router.use(bodyParser.json());
 
 // Post into Manga, creating new manga
 
-router.post("/manage-mangas"), (req,res) => {
+router.post("/create-manga", (req, res) => {
 
   const mangaData = req.body;
   console.log(mangaData);
+  
+  connexion.query('INSERT INTO mangas SET ?', [mangaData], (err, results) => {
 
-  connexion.query('INSERT INTO mangas SET ?', [mangaData], (err,result) => {
-    
+
     if (err) {
 
       console.log(err);
       res.status(500).send("Erreur lors de la création d'un manga");
     } else {
-
+      console.log(results);
       res.sendStatus(200);
     }
   });
-}
+
+})
+
 
 // Delete a Manga in Mangas
 

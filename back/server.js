@@ -17,6 +17,9 @@ app.use(bodyParser.json())
 
 app.use("/users", routes.users)
 app.use("/mangas", routes.mangas)
+app.use("/packs", routes.packs)
+app.use("/publics", routes.publics)
+app.use("/series", routes.series)
 
 app.get("/", (req, res) => {
   res.status(200).send("je suis dans /")
