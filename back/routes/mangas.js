@@ -23,14 +23,14 @@ router.post("/manage-mangas"), (req,res) => {
   const mangaData = req.body;
   console.log(mangaData);
 
-  connexion.query('INSERT INTO mangas SET ?', [mangaData], (err,result) => {
+  connexion.query('INSERT INTO mangas SET ?', [mangaData], (err,results) => {
     
     if (err) {
 
       console.log(err);
       res.status(500).send("Erreur lors de la création d'un manga");
     } else {
-
+      console.log(results)
       res.sendStatus(200);
     }
   });
@@ -51,7 +51,7 @@ router.delete("/manage-mangas", (req, res) => {
       console.log(err);
       res.status(500).send("Erreur");
     } else {
-
+      console.log(results)
       res.sendStatus(200);
     }
   });
@@ -69,7 +69,8 @@ router.get("/manage-mangas", (req, res) => {
       console.log(err);
       res.status(500).send("Erreur lors de l'affichage de tous les mangas");
     } else {
-
+      res.json(results)
+      console.log(results)
       res.sendStatus(200);
     }
   });
@@ -89,7 +90,8 @@ router.get("/manage-mangas/:id", (req, res) => {
       console.log(err);
       res.status(500).send("Erreur lors de l'affichage d'un manga");
     } else {
-
+      res.json(results)
+      console.log(results)
       res.sendStatus(200);
     }
   });
