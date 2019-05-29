@@ -45,6 +45,7 @@ CREATE TABLE IF NOT EXISTS `spiritofmanga`.`series` (
   `id` INT NOT NULL,
   `nameSeries` VARCHAR(45) NOT NULL,
   `types_id` INT NOT NULL,
+  `photoCover` VARCHAR(200) NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
