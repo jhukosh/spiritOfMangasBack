@@ -46,6 +46,7 @@ CREATE TABLE IF NOT EXISTS `spiritofmanga`.`series` (
   `nameSeries` VARCHAR(45) NOT NULL,
   `types_id` INT NOT NULL,
   `photoCover` VARCHAR(200) NOT NULL,
+  `description` VARCHAR(1000) NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
@@ -66,7 +67,6 @@ CREATE TABLE IF NOT EXISTS `spiritofmanga`.`mangas` (
   `editeur` VARCHAR(45) NULL,
   `resume` VARCHAR(500) NOT NULL,
   `prixNeuf` INT NOT NULL,
-  `stockTotal` INT NOT NULL,
   `weight` INT NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
@@ -105,17 +105,13 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `spiritofmanga`.`mangasOrders` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `users_id` INT NOT NULL,
-  `mangas_id` INT NOT NULL,
   `date` DATE NOT NULL,
-  `quantity` INT NOT NULL,
-  `disponibilité` TINYINT NOT NULL,
+  `treated` TINYINT(1) NOT NULL,
+  `users_id` INT NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
-CREATE INDEX `fk_Commandes/Manga_Mangas1_idx` ON `spiritofmanga`.`mangasOrders` (`mangas_id` ASC);
-
-CREATE INDEX `fk_Commandes/Manga_Users1_idx` ON `spiritofmanga`.`mangasOrders` (`users_id` ASC);
+CREATE INDEX `fk_mangasOrders_users1_idx` ON `spiritofmanga`.`mangasOrders` (`users_id` ASC);
 
 
 -- -----------------------------------------------------
@@ -176,55 +172,13 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `spiritofmanga`.`packsOrders` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `users_id` INT NOT NULL,
-  `packs_id` INT NOT NULL,
   `date` DATE NOT NULL,
   `quantity` INT NOT NULL,
-  `disponibility` TINYINT NOT NULL,
+  `treated` TINYINT(1) NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
-
-CREATE INDEX `fk_Commandes/Pack_Packs1_idx` ON `spiritofmanga`.`packsOrders` (`packs_id` ASC);
 
 CREATE INDEX `fk_Commandes/Pack_Users1_idx` ON `spiritofmanga`.`packsOrders` (`users_id` ASC);
-
-
--- -----------------------------------------------------
--- Table `spiritofmanga`.`packsAwaiting`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `spiritofmanga`.`packsAwaiting` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `packsOrders_id` INT NOT NULL,
-  PRIMARY KEY (`id`))
-ENGINE = InnoDB;
-
-CREATE INDEX `fk_Pack en attente_Commandes/Pack1_idx` ON `spiritofmanga`.`packsAwaiting` (`packsOrders_id` ASC);
-
-
--- -----------------------------------------------------
--- Table `spiritofmanga`.`mangasAwaiting`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `spiritofmanga`.`mangasAwaiting` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `mangasOrders_id` INT NOT NULL,
-  PRIMARY KEY (`id`))
-ENGINE = InnoDB;
-
-CREATE INDEX `fk_Manga en attente_Commandes/Manga1_idx` ON `spiritofmanga`.`mangasAwaiting` (`mangasOrders_id` ASC);
-
-
--- -----------------------------------------------------
--- Table `spiritofmanga`.`genresMangas`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `spiritofmanga`.`genresMangas` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `genres_id` INT NOT NULL,
-  `mangas_id` INT NOT NULL,
-  PRIMARY KEY (`id`))
-ENGINE = InnoDB;
-
-CREATE INDEX `fk_Genre/Manga_Genres1_idx` ON `spiritofmanga`.`genresMangas` (`genres_id` ASC);
-
-CREATE INDEX `fk_Genre/Manga_Mangas1_idx` ON `spiritofmanga`.`genresMangas` (`mangas_id` ASC);
 
 
 -- -----------------------------------------------------
@@ -234,7 +188,25 @@ CREATE TABLE IF NOT EXISTS `spiritofmanga`.`statesMangas` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `states_id` INT NOT NULL,
   `mangas_id` INT NOT NULL,
-  `comment` VARCHAR(100) NULL,
+  `commentaire` VARCHAR(100) NULL,
+  `stock` INT NOT NULL,
+  `promo` TINYINT(1) NOT NULL,
+  `promoValue` INT NULL,
+  `prixHT` INT NOT NULL,
+  `TVA` INT NOT NULL,
+  `prixTTC` INT NOT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `spiritofmanga`.`statesMangas`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `spiritofmanga`.`statesMangas` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `states_id` INT NOT NULL,
+  `mangas_id` INT NOT NULL,
+  `commentaire` VARCHAR(100) NULL,
   `stock` INT NOT NULL,
   `promo` TINYINT(1) NOT NULL,
   `promoValue` INT NULL,
@@ -247,6 +219,84 @@ ENGINE = InnoDB;
 CREATE INDEX `fk_states_has_mangas_mangas1_idx` ON `spiritofmanga`.`statesMangas` (`mangas_id` ASC);
 
 CREATE INDEX `fk_states_has_mangas_states1_idx` ON `spiritofmanga`.`statesMangas` (`states_id` ASC);
+
+
+-- -----------------------------------------------------
+-- Table `spiritofmanga`.`genresSeries`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `spiritofmanga`.`genresSeries` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `genres_id` INT NOT NULL,
+  `series_id` INT NOT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+
+CREATE INDEX `fk_genres_has_series_series1_idx` ON `spiritofmanga`.`genresSeries` (`series_id` ASC);
+
+CREATE INDEX `fk_genres_has_series_genres1_idx` ON `spiritofmanga`.`genresSeries` (`genres_id` ASC);
+
+
+-- -----------------------------------------------------
+-- Table `spiritofmanga`.`mangasAwaiting`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `spiritofmanga`.`mangasAwaiting` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `mangas_id` INT NOT NULL,
+  `users_id` INT NOT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = DEFAULT;
+
+CREATE INDEX `fk_mangas_has_users_users1_idx` ON `spiritofmanga`.`mangasAwaiting` (`users_id` ASC);
+
+CREATE INDEX `fk_mangas_has_users_mangas1_idx` ON `spiritofmanga`.`mangasAwaiting` (`mangas_id` ASC);
+
+
+-- -----------------------------------------------------
+-- Table `spiritofmanga`.`packsAwaiting`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `spiritofmanga`.`packsAwaiting` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `packs_id` INT NOT NULL,
+  `users_id` INT NOT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+
+CREATE INDEX `fk_packs_has_users_users1_idx` ON `spiritofmanga`.`packsAwaiting` (`users_id` ASC);
+
+CREATE INDEX `fk_packs_has_users_packs1_idx` ON `spiritofmanga`.`packsAwaiting` (`packs_id` ASC);
+
+
+-- -----------------------------------------------------
+-- Table `spiritofmanga`.`listOrders`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `spiritofmanga`.`listOrders` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `statesMangas_id` INT NOT NULL,
+  `mangasOrders_id` INT NOT NULL,
+  `quantity` INT NOT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+
+CREATE INDEX `fk_statesMangas_has_mangasOrders_mangasOrders1_idx` ON `spiritofmanga`.`listOrders` (`mangasOrders_id` ASC);
+
+CREATE INDEX `fk_statesMangas_has_mangasOrders_statesMangas1_idx` ON `spiritofmanga`.`listOrders` (`statesMangas_id` ASC);
+
+
+-- -----------------------------------------------------
+-- Table `spiritofmanga`.`listPacksOrders`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `spiritofmanga`.`listPacksOrders` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `packs_id` INT NOT NULL,
+  `packsOrders_id` INT NOT NULL,
+  `quantity` INT NOT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+
+CREATE INDEX `fk_packs_has_packsOrders_packs1_idx` ON `spiritofmanga`.`listPacksOrders` (`packs_id` ASC);
+
+CREATE INDEX `fk_listPacksOrders_packsOrders1_idx` ON `spiritofmanga`.`listPacksOrders` (`packsOrders_id` ASC);
 
 
 SET SQL_MODE=@OLD_SQL_MODE;
