@@ -41,8 +41,6 @@ router.post("/create-manga", (req, res) => {
 
 router.delete("/manage-mangas/:id", (req, res) => {
 
-  const manga = req.body;
-  console.log(manga);
   const mangaId = req.params.id
   console.log(mangaId);
 
@@ -96,5 +94,23 @@ router.get("/manage-mangas/:id", (req, res) => {
   });
 
 })
+
+router.put("/manage-mangas", (req, res) => {
+
+  const mangaId = req.body.id
+  const modifiedManga = req.body
+
+  connexion.query('UPDATE mangas SET ? WHERE id=' + mangaId, [modifiedManga], (err, results) => {
+
+    if (err) {
+
+      console.log(err);
+      res.status(500).send("Erreur lors de la modification de données");
+    } else {
+      console.log(results);
+      res.sendStatus(200);
+    }
+  });
+});
 
 module.exports = router
