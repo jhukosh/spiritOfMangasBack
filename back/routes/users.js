@@ -24,7 +24,6 @@ router.post("/create-profile", (req, res) => {
   
   connexion.query('INSERT INTO users SET ?', userData, (err, results) => {
 
-
     if (err) {
 
       console.log(err);

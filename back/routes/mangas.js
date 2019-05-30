@@ -39,17 +39,18 @@ router.post("/create-manga", (req, res) => {
 
 // Delete a Manga in Mangas OK
 
-router.delete("/manage-mangas", (req, res) => {
+router.delete("/manage-mangas/:id", (req, res) => {
 
-  const mangaId = req.query.id
+  const manga = req.body;
+  console.log(manga);
+  const mangaId = req.params.id
+  console.log(mangaId);
 
-  connexion.query('DELETE FROM manga WHERE id=' + mangaId, (err, results) => {
-
+  connexion.query('DELETE FROM mangas WHERE id= ?', [mangaId], (err, results) => {
 
     if (err) {
-
       console.log(err);
-      res.status(500).send("Erreur");
+      res.status(500).send("Erreur lors de la suppression d'un manga");
     } else {
       console.log(results);
       res.sendStatus(200);
@@ -69,8 +70,8 @@ router.get("/manage-mangas", (req, res) => {
       console.log(err);
       res.status(500).send("Erreur lors de l'affichage de tous les mangas");
     } else {
-      console.log(results);
-      res.sendStatus(200);
+      res.json(results);
+      res.status(200);
     }
   });
 
