@@ -90,7 +90,8 @@ router.get("/manage-publics", (req, res) => {
       res.status(500).send("Erreur lors de l'affichage de tous les publics");
     } else {
       console.log(results);
-      res.sendStatus(200);
+      res.json(results);
+      res.status(200);
     }
   });
 
