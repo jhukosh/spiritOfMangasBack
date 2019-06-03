@@ -97,12 +97,13 @@ router.get("/manage-mangas/:id", (req, res) => {
 
 //Fetch manga by title
 
-router.get("/manage-mangas/:title", (req, res) => {
+router.get("/search-mangas/:title", (req, res) => {
 
   const mangaTitle = req.params.title
+  const search = '%' + mangaTitle + '%';
   console.log(mangaTitle);
 
-  connexion.query('SELECT * FROM mangas WHERE title = ?', [mangaTitle], (err, results) => {
+  connexion.query('SELECT * FROM mangas WHERE title LIKE ' + '"' + search + '"', (err, results) => {
 
     if (err) {
       console.log(err);
