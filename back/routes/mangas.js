@@ -110,7 +110,8 @@ router.get("/search-mangas/:title", (req, res) => {
       res.status(500).send("Erreur lors de la récupération d'un manga");
     } else {
       console.log(results);
-      res.sendStatus(200);
+      res.json(results);
+      res.status(200);
     }
   });
 
