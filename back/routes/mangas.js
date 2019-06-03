@@ -15,12 +15,11 @@ router.use(bodyParser.json());
 // ****************** Query ******************
 // *******************************************
 
-// Post into Manga, creating new manga
+// Post into Manga, creating new manga OK
 
 router.post("/create-manga", (req, res) => {
 
   const mangaData = req.body;
-  console.log(mangaData);
   
   connexion.query('INSERT INTO mangas SET ?', [mangaData], (err, results) => {
 
@@ -38,29 +37,27 @@ router.post("/create-manga", (req, res) => {
 })
 
 
-// Delete a Manga in Mangas
+// Delete a Manga in Mangas OK
 
-router.delete("/manage-mangas", (req, res) => {
+router.delete("/manage-mangas/:id", (req, res) => {
 
-  const mangaId = req.query.id
-  console.log(userId)
+  const mangaId = req.params.id
+  console.log(mangaId);
 
-  connexion.query('DELETE FROM manga WHERE id=' + mangaId, (err, results) => {
-
+  connexion.query('DELETE FROM mangas WHERE id= ?', [mangaId], (err, results) => {
 
     if (err) {
-
       console.log(err);
-      res.status(500).send("Erreur");
+      res.status(500).send("Erreur lors de la suppression d'un manga");
     } else {
-
+      console.log(results);
       res.sendStatus(200);
     }
   });
 
 })
 
-// Fetch data of all manga in Mangas
+// Fetch data of all manga in Mangas OK
 
 router.get("/manage-mangas", (req, res) => {
 
@@ -71,8 +68,8 @@ router.get("/manage-mangas", (req, res) => {
       console.log(err);
       res.status(500).send("Erreur lors de l'affichage de tous les mangas");
     } else {
-
-      res.sendStatus(200);
+      res.json(results);
+      res.status(200);
     }
   });
 
@@ -91,11 +88,29 @@ router.get("/manage-mangas/:id", (req, res) => {
       console.log(err);
       res.status(500).send("Erreur lors de l'affichage d'un manga");
     } else {
-
+      console.log(results);
       res.sendStatus(200);
     }
   });
 
 })
+
+router.put("/manage-mangas", (req, res) => {
+
+  const mangaId = req.body.id
+  const modifiedManga = req.body
+
+  connexion.query('UPDATE mangas SET ? WHERE id=' + mangaId, [modifiedManga], (err, results) => {
+
+    if (err) {
+
+      console.log(err);
+      res.status(500).send("Erreur lors de la modification de données");
+    } else {
+      console.log(results);
+      res.sendStatus(200);
+    }
+  });
+});
 
 module.exports = router

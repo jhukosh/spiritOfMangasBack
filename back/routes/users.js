@@ -24,7 +24,6 @@ router.post("/create-profile", (req, res) => {
   
   connexion.query('INSERT INTO users SET ?', userData, (err, results) => {
 
-
     if (err) {
 
       console.log(err);
@@ -46,13 +45,11 @@ router.delete("/manage-users", (req, res) => {
 
   connexion.query('DELETE FROM users WHERE id=' + userId, (err, results) => {
 
-
     if (err) {
 
       console.log(err);
-      res.status(500).send("Erreur lors de la création d'un utilisateur");
+      res.status(500).send("Erreur lors de la suppression de l'utilisateur");
     } else {
-      console.log(results);
       res.sendStatus(200);
     }
   });

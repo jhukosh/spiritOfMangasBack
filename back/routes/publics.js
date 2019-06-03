@@ -72,7 +72,6 @@ router.delete("/manage-publics", (req, res) => {
       console.log(err);
       res.status(500).send("Erreur lors de la suppression d'un public");
     } else {
-      console.log(results);
       res.sendStatus(200);
     }
   });
@@ -91,7 +90,8 @@ router.get("/manage-publics", (req, res) => {
       res.status(500).send("Erreur lors de l'affichage de tous les publics");
     } else {
       console.log(results);
-      res.sendStatus(200);
+      res.json(results);
+      res.status(200);
     }
   });
 

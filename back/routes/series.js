@@ -91,7 +91,8 @@ router.get("/manage-series", (req, res) => {
       res.status(500).send("Erreur lors de l'affichage de toutes les séries");
     } else {
       console.log(results);
-      res.sendStatus(200);
+      res.json(results);
+      res.status(200);
     }
   });
 
@@ -102,7 +103,6 @@ router.get("/manage-series", (req, res) => {
 router.get("/manage-series/:id", (req, res) => {
 
   const serieId = req.params.id
-  console.log(serieId);
 
   connexion.query('SELECT * FROM series WHERE id=' + serieId, (err, results) => {
 
