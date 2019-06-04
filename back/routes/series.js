@@ -42,7 +42,9 @@ router.post("/manage-series", (req, res) => {
 router.put("/manage-series", (req, res) => {
 
     const seriesId = req.body.id
-    const seriesData = req.body
+    const seriesData = req.body.data
+    console.log('put', req.body);
+    
   
     connexion.query('UPDATE series SET ? WHERE id=' + seriesId, [seriesData], (err, results) => {
   
