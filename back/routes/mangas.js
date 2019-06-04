@@ -95,6 +95,30 @@ router.get("/manage-mangas/:id", (req, res) => {
 
 })
 
+//Fetch manga by title
+
+router.get("/search-mangas/:title", (req, res) => {
+
+  const mangaTitle = req.params.title
+  const search = '%' + mangaTitle + '%';
+  console.log(mangaTitle);
+
+  connexion.query('SELECT * FROM mangas WHERE title LIKE ' + '"' + search + '"', (err, results) => {
+
+    if (err) {
+      console.log(err);
+      res.status(500).send("Erreur lors de la récupération d'un manga");
+    } else {
+      console.log(results);
+      res.json(results);
+      res.status(200);
+    }
+  });
+
+})
+
+//Update manga
+
 router.put("/manage-mangas", (req, res) => {
 
   const mangaId = req.body.id
