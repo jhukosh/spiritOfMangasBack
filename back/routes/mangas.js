@@ -39,17 +39,16 @@ router.post("/create-manga", (req, res) => {
 
 // Delete a Manga in Mangas OK
 
-router.delete("/manage-mangas", (req, res) => {
+router.delete("/manage-mangas/:id", (req, res) => {
 
-  const mangaId = req.query.id
+  const mangaId = req.params.id
+  console.log(mangaId);
 
-  connexion.query('DELETE FROM manga WHERE id=' + mangaId, (err, results) => {
-
+  connexion.query('DELETE FROM mangas WHERE id= ?', [mangaId], (err, results) => {
 
     if (err) {
-
       console.log(err);
-      res.status(500).send("Erreur");
+      res.status(500).send("Erreur lors de la suppression d'un manga");
     } else {
       console.log(results);
       res.sendStatus(200);
@@ -69,8 +68,8 @@ router.get("/manage-mangas", (req, res) => {
       console.log(err);
       res.status(500).send("Erreur lors de l'affichage de tous les mangas");
     } else {
-      console.log(results);
-      res.sendStatus(200);
+      res.json(results);
+      res.status(200);
     }
   });
 
@@ -95,5 +94,47 @@ router.get("/manage-mangas/:id", (req, res) => {
   });
 
 })
+
+//Fetch manga by title
+
+router.get("/search-mangas/:title", (req, res) => {
+
+  const mangaTitle = req.params.title
+  const search = '%' + mangaTitle + '%';
+  console.log(mangaTitle);
+
+  connexion.query('SELECT * FROM mangas WHERE title LIKE ' + '"' + search + '"', (err, results) => {
+
+    if (err) {
+      console.log(err);
+      res.status(500).send("Erreur lors de la récupération d'un manga");
+    } else {
+      console.log(results);
+      res.json(results);
+      res.status(200);
+    }
+  });
+
+})
+
+//Update manga
+
+router.put("/manage-mangas", (req, res) => {
+
+  const mangaId = req.body.id
+  const modifiedManga = req.body
+
+  connexion.query('UPDATE mangas SET ? WHERE id=' + mangaId, [modifiedManga], (err, results) => {
+
+    if (err) {
+
+      console.log(err);
+      res.status(500).send("Erreur lors de la modification de données");
+    } else {
+      console.log(results);
+      res.sendStatus(200);
+    }
+  });
+});
 
 module.exports = router
