@@ -86,7 +86,6 @@ router.get("/manage-series", (req, res) => {
   connexion.query('SELECT * FROM series', (err, results) => {
 
     if (err) {
-
       console.log(err);
       res.status(500).send("Erreur lors de l'affichage de toutes les séries");
     } else {
