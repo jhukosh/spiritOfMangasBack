@@ -86,7 +86,7 @@ router.get("/manage-types/:id", (req,res) => {
          } else {
            console.log(results)
            res.json(results);
-           res.sendStatus(200);
+           res.status(200);
          }
 
        });
