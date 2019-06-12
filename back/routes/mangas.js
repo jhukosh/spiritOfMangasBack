@@ -62,18 +62,32 @@ router.delete("/manage-mangas/:id", (req, res) => {
 router.get("/manage-mangas", (req, res) => {
 
   connexion.query('SELECT * FROM mangas', (err, results) => {
-
     if (err) {
-
       console.log(err);
       res.status(500).send("Erreur lors de l'affichage de tous les mangas");
     } else {
+      console.log(results)
       res.json(results);
-      res.status(200);
     }
   });
+});
 
-})
+// Fetch serie name and public name by manga
+
+router.get("/series/:title", (req, res) => {
+  const mangaTitle = req.params.title;
+  console.log(mangaTitle);
+
+  connexion.query('SELECT nameSeries FROM series AS s JOIN mangas AS m ON m.series_id=s.id WHERE m.title = ' + '"' + mangaTitle + '"', (err, results) => {
+    if (err) {
+      console.log(err);
+      res.status(500).send("Erreur lors de l'affichage de tous les mangas");
+    } else {
+      console.log(results)
+      res.json(results)
+    }
+  });
+});
 
 // Fetch data by ID of one user in UsersDB
 
@@ -92,7 +106,6 @@ router.get("/manage-mangas/:id", (req, res) => {
       res.sendStatus(200);
     }
   });
-
 })
 
 //Fetch manga by title
@@ -109,29 +122,10 @@ router.get("/search-mangas/:title", (req, res) => {
       res.status(500).send("Erreur lors de la récupération d'un manga");
     } else {
       console.log(results);
-      connexion.query('SELECT name FROM publics AS p JOIN mangas AS m ON m.publics_id=p.id WHERE m.title LIKE ' + '"' + search + '"', (err, results) => {
-        if (err) {
-          console.log(err);
-          res.status(500).send("Erreur lors de la récupération d'un manga");
-        } else {
-          console.log(results);
-          connexion.query('SELECT nameSeries FROM series AS s JOIN mangas AS m ON m.series_id=s.id WHERE m.title LIKE ' + '"' + search + '"', (err, results) => {
-            if (err) {
-              console.log(err);
-              res.status(500).send("Erreur lors de la récupération d'un manga");
-            } else {
-              console.log(results);
-              res.json(results);
-              res.status(200);
-            }
-          });
-        }
-      });
-    
+      res.json(results);
+      res.status(200);
     }
   });
-
-
 })
 
 
