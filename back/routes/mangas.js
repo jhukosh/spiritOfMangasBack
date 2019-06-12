@@ -75,6 +75,8 @@ router.get("/manage-mangas", (req, res) => {
 // Fetch serie name and public name by manga
 
 router.get("/series/:title", (req, res) => {
+  let resultsToSend = [];
+
   const mangaTitle = req.params.title;
   console.log(mangaTitle);
 
@@ -83,8 +85,17 @@ router.get("/series/:title", (req, res) => {
       console.log(err);
       res.status(500).send("Erreur lors de l'affichage de tous les mangas");
     } else {
-      console.log(results)
-      res.json(results)
+      resultsToSend.push(results);
+      connexion.query('SELECT name FROM publics AS p JOIN mangas AS m ON m.series_id=p.id WHERE m.title = ' + '"' + mangaTitle + '"', (err, results) => {
+        if (err) {
+          console.log(err);
+          res.status(500).send("Erreur lors de l'affichage de tous les mangas");
+        } else {
+          resultsToSend.push(results);
+          console.log(resultsToSend);
+          res.json(resultsToSend);
+        }
+      })
     }
   });
 });
