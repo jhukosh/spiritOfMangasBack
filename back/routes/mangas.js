@@ -99,9 +99,8 @@ router.get("/manage-mangas/:id", (req, res) => {
 
 router.get("/search-mangas/:title", (req, res) => {
 
-  const mangaTitle = req.params.title
+  const mangaTitle = req.params.title;
   const search = '%' + mangaTitle + '%';
-  console.log(mangaTitle);
 
   connexion.query('SELECT * FROM mangas WHERE title LIKE ' + '"' + search + '"', (err, results) => {
 
