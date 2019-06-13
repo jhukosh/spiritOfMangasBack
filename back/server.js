@@ -21,6 +21,7 @@ app.use(cors());
 app.use("/genres", routes.genres)
 app.use("/users", routes.users)
 app.use("/states", routes.states)
+app.use("/statesPack", routes.statesPack)
 app.use("/types", routes.types)
 app.use("/mangas", routes.mangas)
 app.use("/packs", routes.packs)
