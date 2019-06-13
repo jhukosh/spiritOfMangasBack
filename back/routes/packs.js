@@ -117,4 +117,26 @@ router.put("/manage-packs", (req, res) => {
   });
 })
 
+//Fetch packs by title
+
+router.get("/search-packs/:title", (req, res) => {
+
+  const packTitle = req.params.title
+  const search = '%' + packTitle + '%';
+  console.log(packTitle);
+
+  connexion.query('SELECT * FROM packs WHERE title LIKE ' + '"' + search + '"', (err, results) => {
+
+    if (err) {
+      console.log(err);
+      res.status(500).send("Erreur lors de la récupération d'un pack");
+    } else {
+      console.log(results);
+      res.json(results);
+      res.status(200);
+    }
+  });
+
+})
+
 module.exports = router
