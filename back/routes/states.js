@@ -17,18 +17,18 @@ router.use(bodyParser.json());
 
 // Post into states, creating new states OK
 
-router.post("/manage-states", (req, res) => {
+router.post("/manage-states/:name", (req, res) => {
 
-    const stateData = req.body;
-  
-    connexion.query('INSERT INTO states SET ?', stateData, (err, results) => {
+    const stateData = req.params.name;
+    console.log(stateData)
+    connexion.query(`INSERT INTO states (name) VALUES ("${stateData}")`, (err, results) => {
   
       if (err) {
         console.log(err);
         res.status(500).send("Erreur lors de la création de l'état");
       } else {
         console.log(results);
-        res.sendStatus(200); 
+        res.json(results);
       }
 
     });
