@@ -32,9 +32,10 @@ router.get("/manage-states-stock", (req, res) => {
 /* POST */
 
 router.post("/manage-states-stock", (req, res) => {
+    console.log('test');
     const dataBody = req.body;
 
-    connexion.query('INSERT INTO series SET ?', [dataBody], (err, results) => {
+    connexion.query('INSERT INTO statesMangas SET ?', [dataBody], (err, results) => {
 
         if (err) {
           console.log(err);
