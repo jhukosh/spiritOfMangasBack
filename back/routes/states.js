@@ -63,7 +63,7 @@ router.get("/manage-states", (req,res) => {
       res.status(500).send("Erreur lors de l'affichage des états")
     } else {
       console.log(results)
-      res.sendStatus(200);
+      res.json(results);
     }
 
   });

@@ -12,6 +12,7 @@ const genres = require('./genres');
 const states = require('./states');
 const packsAwaiting = require('./packsAwaiting');
 const genresMangas = require('./genresMangas');
+const statesMangas = require('./statesMangas');
 
 
-module.exports = { users, mangas, packs, publics, series, types, genres, states, packsMangas, packsOrders, commandsMangas, genresMangas, mangasAwaiting, packsAwaiting };
+module.exports = { users, mangas, packs, publics, series, types, genres, states, packsMangas, packsOrders, commandsMangas, genresMangas, mangasAwaiting, packsAwaiting, statesMangas };
