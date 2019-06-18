@@ -21,8 +21,9 @@ router.use(bodyParser.json());
 router.post("/create-profile", (req, res) => {
 
   const userData = req.body;
+  console.log(req.body)
   
-  connexion.query('INSERT INTO users SET ?', userData, (err, results) => {
+  connexion.query('INSERT INTO users SET ?', [userData], (err, results) => {
 
     if (err) {
 
@@ -94,6 +95,48 @@ router.get("/manage-users/:id", (req, res) => {
   });
 
 })
+
+// Fetch email from USERS to avoid duplicate email
+
+// router.get("/get-email", (req, res) => {
+
+//   const userMail = req.params
+//   console.log('reqparam',req)
+
+//   connexion.query('SELECT email FROM users WHERE email =' + userMail, (err, results) => {
+
+//     if (err) {
+
+//       console.log(err);
+//       res.status(500).send("Erreur lors de l'affichage d'un utilisateur");
+//     } else {
+//       console.log(results);
+//       res.sendStatus(200);
+//     }
+//   });
+
+// })
+
+// Fetch pseudo from USERS to avoid duplicate pseudo
+
+// router.get("/manage-users/:id", (req, res) => {
+
+//   const userId = req.params.id
+
+//   connexion.query('SELECT * FROM users WHERE id=' + userId, (err, results) => {
+
+//     if (err) {
+
+//       console.log(err);
+//       res.status(500).send("Erreur lors de l'affichage d'un utilisateur");
+//     } else {
+//       console.log(results);
+//       res.json(results);
+//       res.sendStatus(200);
+//     }
+//   });
+
+// })
 
 // Change pseudo of an user in UsersDB
 // IMPORTANT : new value MUST in req must be push with the '' to match MYSQL syntax
