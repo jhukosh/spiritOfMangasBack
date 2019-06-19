@@ -1,6 +1,10 @@
 const express = require("express")
 const router = express.Router()
-const connexion = require('../conf');
+const connexion = require('../conf')
+
+// tuto auth
+const session = require("express-session")
+const cookieParser = require("cookie-parser")
 
 // Body parser module
 
@@ -115,7 +119,32 @@ router.put("/edit-profile", (req, res) => {
       res.sendStatus(200);
     }
   });
+})
 
+// Login
+
+router.post("/login", (req, res) => {
+  const userData = req.body
+  const userEmail = req.body.email 
+  console.log(userEmail)
+  const userPw = req.body.password
+
+  connexion.query(`SELECT email FROM users WHERE email = '${userEmail}'`, (err, results) => {
+    if (err) {
+      console.error(err)
+      res.status(401).send("Vous n'avez pas de compte")
+    } else {
+      connexion.query(`SELECT password FROM users WHERE email = '${userEmail}'`, (err, results) => {
+        if(err) {
+          console.error(err)
+          res.status(401).send("Mauvais mot de passe")
+        } else {
+          res.status(200)
+          console.log("T'existes bravo")
+        }
+      })
+    }
+  })
 })
 
 module.exports = router

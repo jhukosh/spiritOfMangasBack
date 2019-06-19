@@ -1,7 +1,10 @@
-
 const express = require("express")
 const bodyParser = require("body-parser")
 const morgan = require("morgan")
+
+// tuto auth
+const session = require("express-session")
+const cookieParser = require("cookie-parser")
 
 const cors = require("cors")
 
@@ -16,7 +19,19 @@ app.use(morgan(":method :url :status :res[content-length] - :response-time "))
 app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
 app.use(bodyParser.json())
-app.use(cors());
+app.use(cors())
+
+// tuto auth
+app.use(session({
+  key: "user_manga",
+  secret: "Your secret key",
+  saveUninitialized: false,
+  resave: false,
+  cookie: {
+    maxAge: 1000 * 60 * 60 * 2 
+  }
+}))
+app.use(cookieParser())
 
 app.use("/genres", routes.genres)
 app.use("/users", routes.users)
