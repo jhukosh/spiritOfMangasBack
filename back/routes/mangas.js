@@ -78,7 +78,6 @@ router.get("/series/:title", (req, res) => {
   let resultsToSend = [];
 
   const mangaTitle = req.params.title;
-  console.log(mangaTitle);
 
   connexion.query('SELECT nameSeries FROM series AS s JOIN mangas AS m ON m.series_id=s.id WHERE m.title = ' + '"' + mangaTitle + '"', (err, results) => {
     if (err) {
