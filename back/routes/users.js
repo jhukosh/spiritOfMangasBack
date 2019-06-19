@@ -134,7 +134,7 @@ router.post("/login", (req, res) => {
       console.error(err)
       res.status(401).send("Vous n'avez pas de compte")
     } else {
-      connexion.query(`SELECT password FROM users WHERE email = '${userEmail}'`, (err, results) => {
+      connexion.query(`SELECT password FROM users WHERE email = '${userEmail}' AND password = '${userPw}'`, (err, results) => {
         if(err) {
           console.error(err)
           res.status(401).send("Mauvais mot de passe")
