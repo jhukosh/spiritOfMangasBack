@@ -158,16 +158,15 @@ router.put("/edit-profile", (req, res) => {
 
 router.post("/login", (req, res) => {
   const userData = req.body
-  const userEmail = req.body.email 
+  const userEmail = req.body.email
   const userPw = req.body.password
 
   connexion.query(`SELECT email FROM users WHERE email = '${userEmail}'`, (err, results) => {
-    if (err) {
-      console.error(err)
+    if (results.length === 0) {
       res.status(401).send("Vous n'avez pas de compte")
     } else {
       connexion.query(`SELECT password FROM users WHERE email = '${userEmail}' AND password = '${userPw}'`, (err, results) => {
-        if(err) {
+        if(results.length === 0) {
           console.error(err)
           res.status(401).send("Mauvais mot de passe")
         } else {
