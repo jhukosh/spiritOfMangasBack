@@ -189,6 +189,8 @@ router.post("/login", (req, res) => {
 
 router.post("/protected", (req, res, next) => {
   const token = verifToken(req);
+  
+  console.log('protected',req.headers);
   const objectTests = { //data appelées par la bdd 
     test: 'ok',
   }

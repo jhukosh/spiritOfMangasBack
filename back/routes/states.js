@@ -37,9 +37,9 @@ router.post("/manage-states/:name", (req, res) => {
 
 // Delete a state OK
 
-router.delete("/manage-states", (req, res) => {
+router.delete("/manage-states/:id", (req, res) => {
 
-  const stateId = req.body.id
+  const stateId = req.params.id
 
   connexion.query('DELETE FROM states WHERE id='+ stateId, (err, results) => {
 
