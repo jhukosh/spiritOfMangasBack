@@ -10,7 +10,7 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 -- CREATE SCHEMA IF NOT EXISTS `spiritofmanga` DEFAULT CHARACTER SET utf8 ;
 -- Exit the database (ctrl+C)
 -- Run this command :
--- mysql -u root -p spiritofmanga < DB-Creation.sql
+-- mysql -u root -p spiritofmanga < DB-Creation1-3.sql
 -- -----------------------------------------------------
 
 -- -----------------------------------------------------
@@ -80,7 +80,7 @@ CREATE TABLE IF NOT EXISTS `spiritofmanga`.`users` (
   `pseudo` VARCHAR(45) NULL,
   `firstname` VARCHAR(45) NOT NULL,
   `lastname` VARCHAR(45) NOT NULL,
-  `password` VARCHAR(12) NOT NULL,
+  `password` VARCHAR(36) NOT NULL,
   `forgetPassword` VARCHAR(45) NOT NULL,
   `email` VARCHAR(45) NOT NULL,
   `telephone` INT NULL,
@@ -110,6 +110,16 @@ CREATE INDEX `fk_mangasOrders_users1_idx` ON `spiritofmanga`.`mangasOrders` (`us
 
 
 -- -----------------------------------------------------
+-- Table `spiritofmanga`.`statesPack`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `spiritofmanga`.`statesPack` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
 -- Table `spiritofmanga`.`packs`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `spiritofmanga`.`packs` (
@@ -119,11 +129,16 @@ CREATE TABLE IF NOT EXISTS `spiritofmanga`.`packs` (
   `resumePack` VARCHAR(800) NOT NULL,
   `stock` INT NOT NULL,
   `weight` INT NOT NULL,
-  `prixHT` INT NOT NULL,
-  `TVA` INT NOT NULL,
-  `prixTTC` INT NOT NULL,
+  `prixPublic` INT NOT NULL,
+  `promo` TINYINT(1) NOT NULL,
+  `prixPromo` INT NULL,
+  `statesPack_id` INT NOT NULL,
+  `notrePrix` INT NOT NULL,
+  `tomes` INT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
+
+CREATE INDEX `fk_packs_statesPack1_idx` ON `spiritofmanga`.`packs` (`statesPack_id` ASC);
 
 
 -- -----------------------------------------------------

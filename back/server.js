@@ -21,6 +21,7 @@ app.use(cors());
 app.use("/genres", routes.genres)
 app.use("/users", routes.users)
 app.use("/states", routes.states)
+app.use("/statesPack", routes.statesPack)
 app.use("/types", routes.types)
 app.use("/mangas", routes.mangas)
 app.use("/packs", routes.packs)
@@ -32,6 +33,7 @@ app.use("/packsOrders", routes.packsOrders)
 app.use("/packsMangas", routes.packsMangas)
 app.use("/packsAwaiting", routes.packsAwaiting)
 app.use("/genresMangas", routes.genresMangas)
+app.use("/statesMangas", routes.statesMangas)
 
 app.get("/", (req, res) => {
   res.status(200).send("je suis dans /")
