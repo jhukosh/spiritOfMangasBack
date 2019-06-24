@@ -131,6 +131,23 @@ router.get("/manage-users/:id", (req, res) => {
 
 })
 
+// Fetch user by email
+
+router.get('/get-users/:email', (req, res) => {
+  const userMail = "'" + req.params.email + "'"
+  console.log('mail : ' + userMail)
+
+  connexion.query(`SELECT * FROM users WHERE email=${userMail}`, (err, results) => {
+    if (err) {
+      console.error(err)
+      res.status(500).send("Erreur lors de la récupération de l'utilisateur")
+    } else {
+      res.status(200).json(results)
+      console.log(results)
+    }
+  })
+})
+
 // Change pseudo of an user in UsersDB
 // IMPORTANT : new value MUST in req must be push with the '' to match MYSQL syntax
 // PUT method is better than POST when working with existing value
