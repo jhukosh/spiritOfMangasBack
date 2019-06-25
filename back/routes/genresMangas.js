@@ -17,16 +17,17 @@ router.use(bodyParser.json());
 
 // POST OK
 
-router.post("/manage-genres-mangas", (req, res) => {
+router.post("/manage-genres-mangas/:genreId/:serieId", (req, res) => {
 
-  const genresMangasData = req.body;
+  const genresId = req.params.genreId;
+  const serieId = req.params.serieId;
   
-  connexion.query('INSERT INTO genresMangas SET ?', [genresMangasData], (err, results) => {
+  connexion.query(`INSERT INTO genresSeries (genres_id, series_id) values (${genresId}, ${serieId})`, (err, results) => {
 
 
     if (err) {
 
-      console.log(err);
+      console.log(err, 'malheur');
       res.status(500).send("Erreur lors de la création d'un genresMangas");
     } else {
       console.log(results);
