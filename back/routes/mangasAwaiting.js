@@ -20,12 +20,11 @@ router.use(bodyParser.json());
 router.post("/manage-mangas-awaiting", (req, res) => {
 
     const wishListMangaData = req.body;
+    console.log(wishListMangaData);
     
-    connexion.query('INSERT INTO mangasAwaiting SET ?', wishListMangaData, (err, results) => {
-  
+    connexion.query(`INSERT INTO mangasAwaiting (mangas_id, users_id) VALUES (${wishListMangaData[0]}, ${wishListMangaData[1]})`, (err, results) => {
   
       if (err) {
-  
         console.log(err);
         res.status(500).send("Erreur lors de l'import dans la liste d'attente");
       } else {
