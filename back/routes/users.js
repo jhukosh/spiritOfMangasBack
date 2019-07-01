@@ -48,7 +48,7 @@ const verifyToken = (req, res, next) => {
 
 */
 
-// *******************************************
+// *******************************************  
 // ****************** Query ******************
 // *******************************************
 
@@ -57,21 +57,31 @@ const verifyToken = (req, res, next) => {
 router.post("/create-profile", (req, res) => {
 
   const userData = req.body;
-  console.log(req.body)
-  
-  connexion.query('INSERT INTO users SET ?', [userData], (err, results) => {
+  const userMail = req.body.email
+  console.log('userMail', userData.email)
 
+  connexion.query(`SELECT email FROM users WHERE email = '${userMail}'`, (err, results) => {
     if (err) {
 
       console.log(err);
-      res.status(500).send("Erreur lors de la création d'un utilisateur");
-    } else {
-      console.log(results);
-      res.sendStatus(200);
-    }
+      res.status(500).send("Erreur lors de la vérification de l'email");
+    } else if (results.length > 0) {
+      res.status(409, 'L\'email existe déja dans la base de donnée')
+    } 
+    else {
+      console.log(results)
+      connexion.query('INSERT INTO users SET ?', [userData], (err, results) => {
+        if (err) {
+          console.log(err);
+          res.status(500).send("Erreur lors de la creation de l'utilisateur");
+        }
+        else {
+          res.status(200, 'Utilisateur ajouté a la base de donnée')
+        } 
+      });
+    } 
   });
-
-})
+});
 
 // Delete an user in UsersDB
 
