@@ -102,8 +102,7 @@ router.get("/manage-mangas-awaiting/:id", (req, res) => {
       res.status(500).send("Erreur lors de l'affichage d'un mangaOrderAwaiting");
     } else {
       console.log(results);
-      res.json(results);
-      res.sendStatus(200);
+      res.status(200).json(results);
     }
   });
 
