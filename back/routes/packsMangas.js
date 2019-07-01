@@ -104,9 +104,10 @@ router.get("/manage-packs-mangas/:id", (req, res) => {
 // PUT method is better than POST when working with existing value
 
 router.put("/manage-packs-mangas", (req, res) => {
-
   const packsMangasId = req.body.id
   const packsMangasData = req.body
+  console.log(packsMangasId)
+  console.log(packsMangasData)
 
   connexion.query('UPDATE packsMangas SET ? WHERE id='+ packsMangasId, [packsMangasData], (err, results) => {
 
@@ -115,11 +116,12 @@ router.put("/manage-packs-mangas", (req, res) => {
       console.log(err);
       res.status(500).send("Erreur lors de la modification de données d'un pack de manga");
     } else {
-      console.log(results);
+      console.log('ça marche !!');
+      res.json(results);
       res.sendStatus(200);
     }
   });
-})
+})  
 
 
 module.exports = router
