@@ -142,47 +142,22 @@ router.get("/manage-users/:id", (req, res) => {
 
 })
 
-// Fetch email from USERS to avoid duplicate email
+// Fetch user by email
 
-// router.get("/get-email", (req, res) => {
+router.get('/get-users/:email', (req, res) => {
+  const userMail = "'" + req.params.email + "'"
+  console.log('mail : ' + userMail)
 
-//   const userMail = req.params
-//   console.log('reqparam',req)
-
-//   connexion.query('SELECT email FROM users WHERE email =' + userMail, (err, results) => {
-
-//     if (err) {
-
-//       console.log(err);
-//       res.status(500).send("Erreur lors de l'affichage d'un utilisateur");
-//     } else {
-//       console.log(results);
-//       res.sendStatus(200);
-//     }
-//   });
-
-// })
-
-// Fetch pseudo from USERS to avoid duplicate pseudo
-
-// router.get("/manage-users/:id", (req, res) => {
-
-//   const userId = req.params.id
-
-//   connexion.query('SELECT * FROM users WHERE id=' + userId, (err, results) => {
-
-//     if (err) {
-
-//       console.log(err);
-//       res.status(500).send("Erreur lors de l'affichage d'un utilisateur");
-//     } else {
-//       console.log(results);
-//       res.json(results);
-//       res.sendStatus(200);
-//     }
-//   });
-
-// })
+  connexion.query(`SELECT * FROM users WHERE email=${userMail}`, (err, results) => {
+    if (err) {
+      console.error(err)
+      res.status(500).send("Erreur lors de la récupération de l'utilisateur")
+    } else {
+      res.status(200).json(results)
+      console.log(results)
+    }
+  })
+})
 
 // Change pseudo of an user in UsersDB
 // IMPORTANT : new value MUST in req must be push with the '' to match MYSQL syntax
@@ -211,17 +186,15 @@ router.put("/edit-profile", (req, res) => {
 
 router.post("/login", (req, res) => {
   const userData = req.body
-  const userEmail = req.body.email 
+  const userEmail = req.body.email
   const userPw = req.body.password
 
-  connexion.query(`SELECT email FROM users WHERE EXISTS (SELECT email FROM users WHERE email = '${userEmail}'`, (err, results) => {
-    
-    if (err) {
-      console.error(err)
+  connexion.query(`SELECT email FROM users WHERE email = '${userEmail}'`, (err, results) => {
+    if (results.length === 0) {
       res.status(401).send("Vous n'avez pas de compte")
     } else {
       connexion.query(`SELECT password FROM users WHERE email = '${userEmail}' AND password = '${userPw}'`, (err, results) => {
-        if(err) {
+        if(results.length === 0) {
           console.error(err)
           res.status(401).send("Mauvais mot de passe")
         } else {
@@ -244,6 +217,8 @@ router.post("/login", (req, res) => {
 
 router.post("/protected", (req, res, next) => {
   const token = verifToken(req);
+  
+  console.log('protected',req.headers);
   const objectTests = { //data appelées par la bdd 
     test: 'ok',
   }
