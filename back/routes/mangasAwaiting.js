@@ -86,6 +86,7 @@ router.get("/awaiting-users-mangas", (req, res) => {
       res.status(200).json(results);
     }
   })
+
 })
 
 // Fetch data by ID of one mangaOrderAwaiting
