@@ -85,7 +85,7 @@ router.post("/create-profile", (req, res) => {
 
 // Delete an user in UsersDB
 
-router.delete("/manage-users", (req, res) => {
+router.delete("/delete-users", (req, res) => {
 
   const userId = req.body.id
   console.log(userId)
@@ -115,15 +115,17 @@ router.get("/manage-users", (req, res) => {
       res.status(500).send("Erreur lors de l'affichage de tous les utilisateurs");
     } else {
       console.log(results);
-      res.sendStatus(200);
+      res.json(results)
+      res.status(200);
     }
-  });
+  }); 
 
 })
 
+
 // Fetch data by ID of one user in UsersDB
 
-router.get("/manage-users/:id", (req, res) => {
+router.get("/get-users/:id", (req, res) => {
 
   const userId = req.params.id
 
