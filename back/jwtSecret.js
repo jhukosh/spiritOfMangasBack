@@ -1,0 +1,1 @@
+module.exports = "spirit of manga's secret"; // ne pas push ce fichier

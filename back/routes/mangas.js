@@ -42,7 +42,6 @@ router.post("/create-manga", (req, res) => {
 router.delete("/manage-mangas/:id", (req, res) => {
 
   const mangaId = req.params.id
-  console.log(mangaId);
 
   connexion.query('DELETE FROM mangas WHERE id= ?', [mangaId], (err, results) => {
 
