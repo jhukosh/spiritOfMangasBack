@@ -7,10 +7,6 @@ INSERT INTO `states` (name) VALUES ('Comme neuf'), ('Très bon état'), ('Bon é
 
 -- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-INSERT INTO `statesPack` (name) VALUES ('Comme neuf'), ('Très bon état'), ('Bon état'), ('Légèrement abîmé'), ('Mauvais état');
-
--- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
 INSERT INTO `types` (name) VALUES ('Anime-comics'), ('Apprentissage - guide'), ('Artbook - fanbook'), ('Chungnyun (+14 ans)'), ('Dôjinshi - parodie'), ('Ecchi - hentai (+18 ans)'), ('Essai-roman'), ('Global-manga'), ('Josei (+14 ans)'), ('Kodomo'), ('Magazine'), ('Manhua'), ('Seinen (+14 ans)'), ('Shôjo'), ('Shonen'), ('Sonyun-manhwa'), ('Sunjung-sunjeong'), ('Yaoi (+ 16 ans)'), ('Yuri (+16 ans)');
 
 -- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -46,7 +42,10 @@ INSERT INTO mangasAwaiting (mangas_id, users_id) VALUES (1, 1);
 
 INSERT INTO users (pseudo, firstname, lastname, password, forgetPassword, email, telephone, numRue, rue, cp, ville, connaissance, newsletter, droits) VALUES 
 ('MangaLovers', 'Adolf', 'Hitler', 'iLovePologne', 'forgetPasswordKeys', 'angryGuy@germany.de', 0681232452, 1, 'Platz der Republik', 11011, 'Berlin', 'Mes services de renseignements', 1, 'users'),
-('ourMangas', 'Joseph','Stalin', 'goulag34', 'forgetPasswordKeys', 'sexyStach@redmail.ru', 0671273654, 10, 'rue du Kremlin', 103073, 'Moscou', 'Le KGB', 1, 'users');
+('ourMangas', 'Joseph','Stalin', 'goulag34', 'forgetPasswordKeys', 'sexyStach@redmail.ru', 0671273654, 10, 'rue du Kremlin', 103073, 'Moscou', 'Le KGB', 1, 'users'),
+('paulka1','paul','charensol','lamartine','lamartine','charensolp@gmail.com',0670361178,23,'Marco',75019,'Paris','ojn',0,'admin');
+
+
 
 -- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -60,7 +59,7 @@ INSERT INTO packsMangas (mangas_id, packs_id) VALUES (2 ,1), (3 ,1), (4 ,1);
 
 -- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-INSERT INTO packsOrders (users_id, date, quantity, treated) VALUES (1,'2019-06-29', 1, false);
+INSERT INTO packsOrders (users_id, packs_id, date, quantity) VALUES (1, 1,'2019-06-29', 1);
 
 -- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -68,7 +67,7 @@ INSERT INTO packsAwaiting (packs_id, users_id) VALUES (1, 1);
 
 -- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-INSERT INTO mangasOrders (date, treated, users_id) VALUES ('2019-06-29', true, 1); 
+INSERT INTO mangasOrders (users_id, statesMangas_id, date, quantity ) VALUES (1, 1,'2019-06-29', 1); 
 
 -- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -80,11 +79,5 @@ INSERT INTO statesMangas (states_id, mangas_id, commentaire, stock, promo, promo
 
 -- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-INSERT INTO listOrders (statesMangas_id, mangasOrders_id, quantity) VALUES (1, 1, 54);
-
--- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-INSERT INTO listPacksOrders (packs_id, packsOrders_id, quantity) VALUES (1, 1, 666);
-
--- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+INSERT INTO finalOrders (mangasOrders_id, packsOrders_id, treated) VALUES (1, 1, 0)
 
