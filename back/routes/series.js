@@ -19,22 +19,75 @@ router.use(bodyParser.json());
 
 router.post("/manage-series", (req, res) => {
 
-  const seriesData = req.body;
-  console.log(seriesData);
+  // const seriesData = req.body;
+  // console.log(seriesData);
   
-  connexion.query('INSERT INTO series SET ?', [seriesData], (err, results) => {
+  // connexion.query('INSERT INTO series SET ?', [seriesData], (err, results) => {
 
 
-    if (err) {
+  //   if (err) {
 
-      console.log(err);
-      res.status(500).send("Erreur lors de la création d'une série");
-    } else {
-      console.log(results);
-      res.sendStatus(200);
-    }
-  });
+  //     console.log(err);
+  //     res.status(500).send("Erreur lors de la création d'une série");
+  //   } else {
+  //     console.log(results);
+  //     res.sendStatus(200);
+  //   }
+  // });
+  const genresData = req.body.kinds
+  const nameSerie = req.body.nameSeries;
+  const types_id = req.body.types_id;
+  const photoCover = req.body.photoCover;
+  const description = req.body.description;
+  let newSerieId = 0 ;
 
+  connexion.beginTransaction( err => {
+    if(err) {throw err}
+
+    connexion.query(`INSERT INTO series (nameSeries, types_id, photoCover, description) VALUES ('${nameSerie}', ${types_id}, '${photoCover}', '${description}')`, (err, results) => {
+
+      if (err) {
+        return connexion.rollback( _ => {
+          res
+          .status(500).send("error from series")
+          throw err
+        })
+      } else {
+        // get id from the serie just created
+        newSerieId = results.insertId;
+        console.log(newSerieId);
+
+        for (let i=0; i < genresData.length; i++) {
+          console.log('test rollback')
+          connexion.query(`INSERT INTO genresSeries (genres_id, series_id) VALUES (${+genresData[i]}, ${newSerieId}`, (err, results) => {
+    
+            if (err) {
+              return connexion.rollback( _ => {
+                res
+                .status(500).send("error from genresSeries")
+                throw err
+              })
+            } else {
+              console.log(results)
+            }
+          })
+        }
+      }
+    })
+
+    connexion.commit( err => {
+      if (err) {
+        return connexion.rollback( _ => {
+          res
+          .status(500).send("error from genresSeries")
+          throw err
+        })
+      }
+    })
+
+    res.status(200).json({ results: "send" })
+
+  })
 })
 
 // PUT OK
