@@ -59,9 +59,11 @@ router.post("/manage-series", (req, res) => {
 
         for (let i=0; i < genresData.length; i++) {
           console.log('test rollback')
-          connexion.query(`INSERT INTO genresSeries (genres_id, series_id) VALUES (${+genresData[i]}, ${newSerieId}`, (err, results) => {
+          connexion.query(`INSERT INTO genresSeries (genres_id, series_id) VALUES (${+genresData[i]}, ${newSerieId})`, (err, results) => {
     
             if (err) {
+              console.log(results, err);
+              
               return connexion.rollback( _ => {
                 res
                 .status(500).send("error from genresSeries")
