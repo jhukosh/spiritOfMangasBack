@@ -126,7 +126,7 @@ router.get("/manage-users", (req, res) => {
 // Fetch data by ID of one user in UsersDB
 
 router.get("/get-users/:id", (req, res) => {
-
+                                          
   const userId = req.params.id
 
   connexion.query('SELECT * FROM users WHERE id=' + userId, (err, results) => {
@@ -138,7 +138,7 @@ router.get("/get-users/:id", (req, res) => {
     } else {
       console.log(results);
       res.json(results);
-      res.sendStatus(200);
+      res.status(200);
     }
   });
 
