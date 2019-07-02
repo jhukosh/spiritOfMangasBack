@@ -102,17 +102,17 @@ router.get("/series/:title", (req, res) => {
 
 router.get("/manage-mangas/:id", (req, res) => {
 
-  const mangaId = req.body.id
+  const mangaId = req.params.id
 
   connexion.query('SELECT * FROM mangas WHERE id=' + mangaId, (err, results) => {
 
     if (err) {
-
       console.log(err);
       res.status(500).send("Erreur lors de l'affichage d'un manga");
     } else {
       console.log(results);
-      res.sendStatus(200);
+      res.json(results);
+      res.status(200);    
     }
   });
 })

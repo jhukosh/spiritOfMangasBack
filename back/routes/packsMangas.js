@@ -39,7 +39,7 @@ router.post("/create-packs-mangas", (req, res) => {
 
 // Delete a pack of manga in packMangas OK
 
-router.delete("/manage-packs-mangas", (req, res) => {
+router.delete("/manage-packs-mangas/:id", (req, res) => {
 
   const packsMangasId = req.body.id
   console.log(packsMangasId)
@@ -58,7 +58,35 @@ router.delete("/manage-packs-mangas", (req, res) => {
   });
 
 })
-  
+
+//Delete a Manga in a PACK 
+
+        // DELETE FROM packsMangas WHERE `mangas_id` = BODY ? AND `packs_id` =  BODY 2?;
+
+  router.delete("/manage-packs-mangas/:idPack/:idManga", (req, res) => {
+
+    const packID = req.params.idPack
+    const mangaID = req.params.idManga
+    console.log(packID)
+    console.log(mangaID)
+
+    connexion.query('DELETE FROM packsMangas WHERE `packs_id`= ' + packID + ' AND `mangas_id`= ' + mangaID, (err, results) => {
+
+      if (err) {
+
+        console.log(err);
+        res.status(500).send("Erreur lors de la suppression d'un pack");
+      } else {
+        console.log(
+          'results', results
+        );
+        
+        res.sendStatus(200);
+      }
+    });
+
+  })
+          
 // Select * packs Mangas OK
 
 router.get("/manage-packs-mangas", (req, res) => {
@@ -85,7 +113,7 @@ router.get("/manage-packs-mangas/:id", (req, res) => {
 
   const packsMangasId = req.params.id
 
-  connexion.query('SELECT * FROM packsMangas WHERE id=' + packsMangasId, (err, results) => {
+  connexion.query('SELECT * FROM packsMangas WHERE packs_id=' + packsMangasId, (err, results) => {
 
     if (err) {
 
@@ -94,7 +122,7 @@ router.get("/manage-packs-mangas/:id", (req, res) => {
     } else {
       console.log(results);
       res.json(results);
-      res.sendStatus(200);
+      res.status(200);
     }
   });
 
