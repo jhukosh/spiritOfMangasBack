@@ -49,9 +49,9 @@ INSERT INTO users (pseudo, firstname, lastname, password, forgetPassword, email,
 
 -- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-INSERT INTO packs (namePack, photoPack, resumePack, stock, weight, prixPublic, promo, prixPromo, statesPack_id, notrePrix, tomes) VALUES 
-('L\'Attaque des Titans, le commencement', 'http://fr.web.img4.acsta.net/pictures/17/02/15/17/33/286530.jpg','Le monde appartient désormais aux Titans, des êtres gigantesques qui ont presque décimé l’Humanité. Voilà une centaine d’années, les derniers rescapés ont bâti une place forte, une cité cernée d’une haute muraille au sein de laquelle vivent aujourd’hui leurs descendants. Parqués, ignorants tout du monde extérieur, ils s’estiment au moins à l’abri de ces effroyables êtres qui ne feraient d’eux qu’une bouchée. Hélas, cette illusion de sécurité vole en éclats le jour où surgit un Titan démesuré...', 1, 768, 32, 1, 22, 2, 25, 6),
-('La totale', 'https://i.ytimg.com/vi/h98blVbubaI/maxresdefault.jpg', 'Tous nos mangas avec des gros nichons ', 1, 1024, 380, 0, NULL, 1, 199, NULL);
+INSERT INTO packs (namePack, photoPack, resumePack, stock, weight, prixPublic, promo, prixPromo, notrePrix, tomes) VALUES 
+('L\'Attaque des Titans, le commencement', 'http://fr.web.img4.acsta.net/pictures/17/02/15/17/33/286530.jpg','Le monde appartient désormais aux Titans, des êtres gigantesques qui ont presque décimé l’Humanité. Voilà une centaine d’années, les derniers rescapés ont bâti une place forte, une cité cernée d’une haute muraille au sein de laquelle vivent aujourd’hui leurs descendants. Parqués, ignorants tout du monde extérieur, ils s’estiment au moins à l’abri de ces effroyables êtres qui ne feraient d’eux qu’une bouchée. Hélas, cette illusion de sécurité vole en éclats le jour où surgit un Titan démesuré...', 1, 768, 32, 1, 22, 25, 6),
+('La totale', 'https://i.ytimg.com/vi/h98blVbubaI/maxresdefault.jpg', 'Tous nos mangas avec des gros nichons ', 1, 1024, 380, 0, NULL, 199, NULL);
 
 -- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
