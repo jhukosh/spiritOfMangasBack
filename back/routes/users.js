@@ -122,6 +122,22 @@ router.get("/manage-users", (req, res) => {
 
 })
 
+// Fetch user by email
+
+router.get('/display-user/:email', (req, res) => {
+  const userMail = "'" + req.params.email + "'"
+  console.log('mail : ' + userMail)
+
+  connexion.query(`SELECT * FROM users WHERE email=${userMail}`, (err, results) => {
+    if (err) {
+      console.error(err)
+      res.status(500).send("Erreur lors de la récupération de l'utilisateur")
+    } else {
+      res.status(200).json(results)
+      console.log(results)
+    }
+  })
+})
 
 // Fetch data by ID of one user in UsersDB
 
@@ -144,22 +160,6 @@ router.get("/get-users/:id", (req, res) => {
 
 })
 
-// Fetch user by email
-
-router.get('/get-users/:email', (req, res) => {
-  const userMail = "'" + req.params.email + "'"
-  console.log('mail : ' + userMail)
-
-  connexion.query(`SELECT * FROM users WHERE email=${userMail}`, (err, results) => {
-    if (err) {
-      console.error(err)
-      res.status(500).send("Erreur lors de la récupération de l'utilisateur")
-    } else {
-      res.status(200).json(results)
-      console.log(results)
-    }
-  })
-})
 
 // Change pseudo of an user in UsersDB
 // IMPORTANT : new value MUST in req must be push with the '' to match MYSQL syntax
@@ -190,6 +190,8 @@ router.post("/login", (req, res) => {
   const userData = req.body
   const userEmail = req.body.email
   const userPw = req.body.password
+
+  console.log(userEmail)
 
   connexion.query(`SELECT email FROM users WHERE email = '${userEmail}'`, (err, results) => {
     if (results.length === 0) {
