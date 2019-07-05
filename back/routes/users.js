@@ -208,29 +208,6 @@ router.post("/login", (req, res) => {
       res.status(200)
     }
   })
-
-  // connexion.query(`SELECT email FROM users WHERE email = '${userEmail}'`, (err, results) => {
-  //   if (results.length === 0) {
-  //     res.status(401).send("Vous n'avez pas de compte")
-  //   } else {
-  //     connexion.query(`SELECT password FROM users WHERE email = '${userEmail}' AND password = '${userPw}'`, (err, results) => {
-  //       if(results.length === 0) {
-  //         console.error(err)
-  //         res.status(401).send("Mauvais mot de passe")
-  //       } else {
-  //         console.log("T'existes bravo")
-  //         const token = jwt.sign(userData, jwtSecret, (err, token) => {
-  //           res.json({
-  //             token
-  //           })
-  //         })
-  //         res.header("Access-Control-Expose-Headers", "x-access-token")
-  //         res.set("x-access-token", token)
-  //         res.status(200)
-  //       }
-  //     })
-  //   }
-  // })
 })
 
 // vérifier le token pour les pages protégées (type BO ou panier, commandes, infos persos...)
