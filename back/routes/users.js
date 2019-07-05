@@ -122,6 +122,22 @@ router.get("/manage-users", (req, res) => {
 
 })
 
+// Fetch user by email
+
+router.get('/display-user/:email', (req, res) => {
+  const userMail = "'" + req.params.email + "'"
+  console.log('mail : ' + userMail)
+
+  connexion.query(`SELECT * FROM users WHERE email=${userMail}`, (err, results) => {
+    if (err) {
+      console.error(err)
+      res.status(500).send("Erreur lors de la récupération de l'utilisateur")
+    } else {
+      res.status(200).json(results)
+      console.log(results)
+    }
+  })
+})
 
 // Fetch data by ID of one user in UsersDB
 
@@ -144,22 +160,6 @@ router.get("/get-users/:id", (req, res) => {
 
 })
 
-// Fetch user by email
-
-router.get('/get-users/:email', (req, res) => {
-  const userMail = "'" + req.params.email + "'"
-  console.log('mail : ' + userMail)
-
-  connexion.query(`SELECT * FROM users WHERE email=${userMail}`, (err, results) => {
-    if (err) {
-      console.error(err)
-      res.status(500).send("Erreur lors de la récupération de l'utilisateur")
-    } else {
-      res.status(200).json(results)
-      console.log(results)
-    }
-  })
-})
 
 // Change pseudo of an user in UsersDB
 // IMPORTANT : new value MUST in req must be push with the '' to match MYSQL syntax
@@ -191,26 +191,21 @@ router.post("/login", (req, res) => {
   const userEmail = req.body.email
   const userPw = req.body.password
 
-  connexion.query(`SELECT email FROM users WHERE email = '${userEmail}'`, (err, results) => {
-    if (results.length === 0) {
-      res.status(401).send("Vous n'avez pas de compte")
+  console.log(userEmail)
+
+  connexion.query(`SELECT * FROM users WHERE email="${userEmail}" AND password="${userPw}"`, (err, results) => {
+    if (err) {
+      res.status(500).send("Email inexistant ou mauvais mot de passe");
     } else {
-      connexion.query(`SELECT password FROM users WHERE email = '${userEmail}' AND password = '${userPw}'`, (err, results) => {
-        if(results.length === 0) {
-          console.error(err)
-          res.status(401).send("Mauvais mot de passe")
-        } else {
-          console.log("T'existes bravo")
-          const token = jwt.sign(userData, jwtSecret, (err, token) => {
-            res.json({
-              token
-            })
-          })
-          res.header("Access-Control-Expose-Headers", "x-access-token")
-          res.set("x-access-token", token)
-          res.status(200)
-        }
+      const tokenUserInfo = {lastname: results[0].lastname, email: userEmail, droits: results[0].droits}
+      const token = jwt.sign(tokenUserInfo, jwtSecret, (err, token) => {
+        res.json({
+          token
+        })
       })
+      res.header("Access-Control-Expose-Headers", "x-access-token")
+      res.set("x-access-token", token)
+      res.status(200)
     }
   })
 })

@@ -21,11 +21,9 @@ router.post("/manage-mangas-awaiting", (req, res) => {
 
     const wishListMangaData = req.body;
     
-    connexion.query('INSERT INTO mangasAwaiting SET ?', wishListMangaData, (err, results) => {
-  
+    connexion.query(`INSERT INTO mangasAwaiting (mangas_id, users_id) VALUES (${wishListMangaData[0]}, ${wishListMangaData[1]})`, (err, results) => {
   
       if (err) {
-  
         console.log(err);
         res.status(500).send("Erreur lors de l'import dans la liste d'attente");
       } else {
@@ -68,10 +66,26 @@ router.get("/manage-mangas-awaiting", (req, res) => {
       res.status(500).send("Erreur lors de l'affichage de tous les mangas en attente");
     } else {
       console.log(results);
-      res.json(results);
-      res.sendStatus(200);
+      res.status(200).json(results);
     }
   });
+
+})
+
+// Fetch mangas datas and users datas from mangasAwaiting table
+
+router.get("/awaiting-users-mangas", (req, res) => {
+
+  connexion.query('SELECT firstname, lastname, email, title, tome FROM mangasAwaiting JOIN users ON users_id=users.id JOIN mangas ON mangas_id=mangas.id', (err, results) => {
+
+    if(err) {
+      console.log(err);
+      res.status(500).send("Erreur lors de l'affichage de tous les mangas en attente");
+    } else {
+      console.log(results);
+      res.status(200).json(results);
+    }
+  })
 
 })
 
@@ -89,8 +103,7 @@ router.get("/manage-mangas-awaiting/:id", (req, res) => {
       res.status(500).send("Erreur lors de l'affichage d'un mangaOrderAwaiting");
     } else {
       console.log(results);
-      res.json(results);
-      res.sendStatus(200);
+      res.status(200).json(results);
     }
   });
 
@@ -103,7 +116,6 @@ router.delete("/manage-mangas-awaiting", (req, res) => {
   const mangaOrderAwaitingId = req.body.id
 
   connexion.query('DELETE FROM mangasAwaiting WHERE id=' + mangaOrderAwaitingId, (err, results) => {
-
 
     if (err) {
 

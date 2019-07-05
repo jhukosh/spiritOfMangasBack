@@ -8,7 +8,7 @@ const bodyParser = require('body-parser');
 router.use(bodyParser.urlencoded({
   extended: true
 }));
-
+   
 router.use(bodyParser.json());
 
 // *******************************************
@@ -103,7 +103,9 @@ router.get("/manage-packs/:id", (req, res) => {
 router.put("/manage-packs", (req, res) => {
 
   const packId = req.body.id
+  console.log(packId)
   const packData = req.body
+  console.log(packData)
 
   connexion.query('UPDATE packs SET ? WHERE id='+ packId, [packData], (err, results) => {
 
