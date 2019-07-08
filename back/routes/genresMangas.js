@@ -71,7 +71,7 @@ router.get("/manage-genres-mangas", (req, res) => {
     } else {
       console.log(results);
       res.json(results);
-      res.sendStatus(200);
+      // res.sendStatus(200);
     }
   });
 
@@ -81,9 +81,9 @@ router.get("/manage-genres-mangas", (req, res) => {
 
 router.get("/manage-genres-mangas/:id", (req, res) => {
 
-  const genresMangasId = req.params.id
+  const serieId = req.params.id
 
-  connexion.query('SELECT * FROM genresMangas WHERE id=' + genresMangasId, (err, results) => {
+  connexion.query('SELECT genres_id, name FROM genresSeries INNER JOIN genres WHERE series_id= ' + serieId + ' AND genres.id=genresSeries.genres_id', (err, results) => {
 
     if (err) {
 
@@ -91,8 +91,8 @@ router.get("/manage-genres-mangas/:id", (req, res) => {
       res.status(500).send("Erreur lors de l'affichage d'un genresMangas");
     } else {
       console.log(results);
-      res.json(results);
-      res.sendStatus(200);
+      res.status(200).json(results);
+      // res.sendStatus(200);
     }
   });
 
