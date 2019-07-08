@@ -31,7 +31,7 @@ router.post("/manage-genres-mangas/:genreId/:serieId", (req, res) => {
       res.status(500).send("Erreur lors de la création d'un genresMangas");
     } else {
       console.log(results);
-      res.sendStatus(200);
+      res.status(200);
     }
   });
 
