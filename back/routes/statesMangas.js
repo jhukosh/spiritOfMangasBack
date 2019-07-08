@@ -52,7 +52,7 @@ router.get("/get-favorites", (req, res) => {
 
 router.get("/get-promotions", (req, res) => {
 
-  connexion.query(`SELECT title, tome, photoCover, tome, resume, promo, promoValue, prixTTC 
+  connexion.query(`SELECT mangas_id, title, tome, photoCover, tome, resume, promo, promoValue, prixTTC 
                   FROM statesMangas 
                   JOIN mangas ON mangas_id=mangas.id
                   WHERE promo=1`, (err, results) => {
@@ -116,8 +116,8 @@ router.put("/promote-on-home/:id", (req, res) => {
       console.log(err);
       res.status(500).send("Erreur lors de la création d'un état");
     } else if (results.length >= 5) {
-      console.log(results.length)
       console.log('Vous avez atteint le nombre maximum de favoris')
+      res.send(409)
     } else {
       connexion.query(`UPDATE statesMangas SET favorite=1 WHERE mangas_id=${mangaId}`, (err, results) => {
         if (err) {
