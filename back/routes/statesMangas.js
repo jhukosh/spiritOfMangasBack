@@ -111,12 +111,22 @@ router.post("/manage-states-stock", (req, res) => {
 router.put("/promote-on-home/:id", (req, res) => {
   const mangaId = req.params.id
 
-  connexion.query(`UPDATE statesMangas SET favorite=1 WHERE mangas_id=${mangaId}`, (err, results) => {
+  connexion.query(`SELECT * FROM statesMangas WHERE favorite=1`, (err, results) => {
     if (err) {
       console.log(err);
       res.status(500).send("Erreur lors de la création d'un état");
+    } else if (results.length >= 5) {
+      console.log(results.length)
+      console.log('Vous avez atteint le nombre maximum de favoris')
     } else {
-      res.status(200)
+      connexion.query(`UPDATE statesMangas SET favorite=1 WHERE mangas_id=${mangaId}`, (err, results) => {
+        if (err) {
+          console.log(err);
+          res.status(500).send("Erreur lors de la création d'un état");
+        } else {
+          res.status(200)
+        }
+      })
     }
   })
 })
