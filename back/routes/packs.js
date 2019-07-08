@@ -38,9 +38,9 @@ router.post("/manage-packs", (req, res) => {
 
 // DELETE OK
 
-router.delete("/manage-packs", (req, res) => {
+router.delete("/delete-packs/:id", (req, res) => {
 
-  const packId = req.body.id
+  const packId = req.params.id
   console.log(packId)
 
   connexion.query('DELETE FROM packs WHERE id=' + packId, (err, results) => {
