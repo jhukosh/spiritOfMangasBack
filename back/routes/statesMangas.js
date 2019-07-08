@@ -33,7 +33,7 @@ router.get("/manage-states-stock", (req, res) => {
 
 router.get("/get-favorites", (req, res) => {
 
-  connexion.query(`SELECT title, tome, photoCover, tome, resume, promo, promoValue, prixTTC 
+  connexion.query(`SELECT mangas_id, title, tome, photoCover, tome, resume, promo, promoValue, prixTTC 
                   FROM statesMangas 
                   JOIN mangas ON mangas_id=mangas.id
                   WHERE favorite=1`, (err, results) => {
@@ -133,6 +133,7 @@ router.put("/promote-on-home/:id", (req, res) => {
 
 router.put("/unpromote-on-home/:id", (req, res) => {
   const mangaId = req.params.id
+  console.log('id or not id ? ' + mangaId)
 
   connexion.query(`UPDATE statesMangas SET favorite=0 WHERE mangas_id=${mangaId}`, (err, results) => {
     if (err) {
