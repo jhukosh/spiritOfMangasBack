@@ -15,10 +15,11 @@ const packsAwaiting = require('./packsAwaiting');
 const genresMangas = require('./genresMangas');
 const statesMangas = require('./statesMangas');
 const finalOrder = require('./finalOrder');
+const finalOrderArchive = require('./finalOrderArchive');
 
 
 module.exports = { users, mangas, packs, publics, 
                     series, types, genres, states,
                     statesPack, packsMangas, packsOrders, 
                     commandsMangas, genresMangas, mangasAwaiting, 
-                    packsAwaiting, statesMangas, finalOrder };
+                    packsAwaiting, statesMangas, finalOrder, finalOrderArchive };
