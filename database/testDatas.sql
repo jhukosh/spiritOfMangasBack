@@ -75,7 +75,12 @@ INSERT INTO mangasAwaiting (mangas_id, users_id) VALUES (1, 2);
 
 -- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-INSERT INTO statesMangas (states_id, mangas_id, commentaire, stock, promo, promoValue, prixHT, TVA, prixTTC) VALUES  (1, 2, 'lorem blabla', 1, true, 20, 12, 20, 14.4);
+INSERT INTO statesMangas (states_id, mangas_id, commentaire, stock, favorite, promo, promoValue, prixHT, TVA, prixTTC) VALUES 
+(1, 2, 'lorem blabla', 1, true, true, 20, 12, 20, 14.4),
+(3, 3, 'lorem blabla', 1, false, true, 20, 12, 20, 14.4),
+(3, 3, 'lorem blabla', 1, false, true, 20, 12, 20, 14.4),
+(3, 3, 'lorem blabla', 1, true, true, 20, 12, 20, 14.4),
+(3, 3, 'lorem blabla', 1, true, true, 20, 12, 20, 14.4);
 
 -- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
