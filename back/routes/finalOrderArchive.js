@@ -20,7 +20,7 @@ router.use(bodyParser.json());
 
 router.get("/manage-final-order-archive", (req,res) => {
 
-    let packVariable = [];
+    let archivePackVariable = [];
     
     connexion.query(`SELECT packs.namePack, packs.photoPack
                     FROM packsOrders 
@@ -33,7 +33,7 @@ router.get("/manage-final-order-archive", (req,res) => {
             console.log(err)
             res.status(500).send("Erreur lors de l'affichage de toutes les commandes")
         } else {
-            packVariable.push(results)
+            archivePackVariable.push(results)
             console.log(results[0])
             connexion.query(`SELECT users.firstname, users.lastname
                             FROM packsOrders
@@ -45,7 +45,7 @@ router.get("/manage-final-order-archive", (req,res) => {
                     console.log(err)
                     res.status(500).send("Erreur lors de l'affichage de toutes les commandes")  
                 } else {
-                    packVariable.push(results)
+                    archivePackVariable.push(results)
 
                     connexion.query(`SELECT packsOrders.date, packsOrders.quantity
                                     FROM finalOrders
@@ -55,8 +55,8 @@ router.get("/manage-final-order-archive", (req,res) => {
                         if (err) {
                             res.status(500).send("Erreur lors de l'affichage de toutes les commandes") 
                         } else {
-                            packVariable.push(results)
-                            res.json(packVariable)
+                            archivePackVariable.push(results)
+                            res.json(archivePackVariable)
                         }
                         })
                 }              
@@ -67,9 +67,9 @@ router.get("/manage-final-order-archive", (req,res) => {
 })
 
 
-router.get("/manage-final-order-manga-archive", (req,res) => {
+router.get("/manage-final-order-archive-manga", (req,res) => {
 
-    let mangaVariable = [];
+    let archiveMangaVariable = [];
 
     connexion.query(`SELECT mangas.title, mangas.tome 
                     FROM statesMangas 
@@ -83,7 +83,7 @@ router.get("/manage-final-order-manga-archive", (req,res) => {
             console.log(err)
             res.status(500).send("Erreur lors de l'affichage de toutes les commandes")
         } else {
-            mangaVariable.push(results)
+            archiveMangaVariable.push(results)
             
             connexion.query(`SELECT users.firstname, users.lastname
                             FROM mangasOrders
@@ -95,7 +95,7 @@ router.get("/manage-final-order-manga-archive", (req,res) => {
                     console.log(err)
                     res.status(500).send("Erreur lors de l'affichage de toutes les commandes")  
                 } else {
-                    mangaVariable.push(results)
+                    archiveMangaVariable.push(results)
 
                     connexion.query(`SELECT mangasOrders.date, mangasOrders.quantity
                                     FROM finalOrders
@@ -105,8 +105,8 @@ router.get("/manage-final-order-manga-archive", (req,res) => {
                         if (err) {
                             res.status(500).send("Erreur lors de l'affichage de toutes les commandes") 
                         } else {
-                            mangaVariable.push(results)
-                            res.json(mangaVariable)
+                            archiveMangaVariable.push(results)
+                            res.json(archiveMangaVariable)
                         }
                         })
                 }              
