@@ -64,7 +64,8 @@ router.post("/manage-genres", (req, res) => {
         res.status(500).send("Erreur lors de l'affichage des genres")
       } else {
         console.log(results)
-        res.sendStatus(200);
+        res.json(results);
+        res.status(200); 
       }
 
     });
@@ -73,22 +74,23 @@ router.post("/manage-genres", (req, res) => {
 
 // Select a genre by id OK
 
-  router.get("/manage-genre", (req,res) => {
+  // router.get("/manage-genre", (req,res) => {
 
-    const genreId = req.body.id
+  //   const genreId = req.body.id
 
-       connexion.query('SELECT * FROM genres WHERE id=' + genreId, (err, results) => {
+  //      connexion.query('SELECT * FROM genres where id=' + genreId, (err, results) => {
 
-         if (err) {
-           console.log(err);
-           res.status(500).send("Erreur lors de l'affichage du genre")
-         } else {
-           console.log(results)
-           res.sendStatus(200);
-         }
+  //        if (err) {
+  //          console.log(err);
+  //          res.status(500).send("Erreur lors de l'affichage du genre")
+  //        } else {
+  //          console.log(results)
+  //          res.sendStatus(200);
+  //          res.json(results);
+  //        }
 
-       });
-     })
+  //      });
+  //    })
 
 // Change name of an genre in GenresDB OK
 
