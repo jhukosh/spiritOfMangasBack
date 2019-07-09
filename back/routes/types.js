@@ -64,8 +64,8 @@ router.get("/manage-types", (req,res) => {
         res.status(500).send("Erreur lors de l'affichage des types")
       } else {
         console.log(results);
-        res.json(results);
         res.status(200);
+        res.json(results);
       }
 
     });

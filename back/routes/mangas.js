@@ -67,6 +67,7 @@ router.get("/manage-mangas", (req, res) => {
     } else {
       console.log(results)
       res.json(results);
+      res.status(200);
     }
   });
 });

@@ -17,20 +17,21 @@ router.use(bodyParser.json());
 
 // POST OK
 
-router.post("/manage-genres-mangas", (req, res) => {
+router.post("/manage-genres-mangas/:genreId/:serieId", (req, res) => {
 
-  const genresMangasData = req.body;
+  const genresId = req.params.genreId;
+  const serieId = req.params.serieId;
   
-  connexion.query('INSERT INTO genresMangas SET ?', [genresMangasData], (err, results) => {
+  connexion.query(`INSERT INTO genresSeries (genres_id, series_id) values (${genresId}, ${serieId})`, (err, results) => {
 
 
     if (err) {
 
-      console.log(err);
+      console.log(err, 'malheur');
       res.status(500).send("Erreur lors de la création d'un genresMangas");
     } else {
       console.log(results);
-      res.sendStatus(200);
+      res.status(200);
     }
   });
 
@@ -38,12 +39,14 @@ router.post("/manage-genres-mangas", (req, res) => {
 
 // DELETE OK
 
-router.delete("/manage-genres-mangas", (req, res) => {
+router.delete("/manage-genres-mangas/:id", (req, res) => {
 
-  const genresMangasId = req.body.id
-  console.log(genresMangasId)
+  // const genresMangasId = req.body.id
+  const genresSeriesId = req.params.id
 
-  connexion.query('DELETE FROM genresMangas WHERE id=' + genresMangasId, (err, results) => {
+  console.log(genresSeriesId)
+
+  connexion.query(`DELETE FROM genresSeries WHERE id=${genresSeriesId}`, (err, results) => {
 
 
     if (err) {
@@ -51,7 +54,7 @@ router.delete("/manage-genres-mangas", (req, res) => {
       console.log(err);
       res.status(500).send("Erreur lors de la suppression d'un genresMangas");
     } else {
-      res.sendStatus(200);
+      res.status(200);
     }
   });
 
@@ -70,7 +73,7 @@ router.get("/manage-genres-mangas", (req, res) => {
     } else {
       console.log(results);
       res.json(results);
-      res.sendStatus(200);
+      // res.sendStatus(200);
     }
   });
 
@@ -80,9 +83,9 @@ router.get("/manage-genres-mangas", (req, res) => {
 
 router.get("/manage-genres-mangas/:id", (req, res) => {
 
-  const genresMangasId = req.params.id
+  const serieId = req.params.id
 
-  connexion.query('SELECT * FROM genresMangas WHERE id=' + genresMangasId, (err, results) => {
+  connexion.query('SELECT genres_id, name, genresSeries.id FROM genresSeries INNER JOIN genres WHERE series_id= ' + serieId + ' AND genres.id=genresSeries.genres_id', (err, results) => {
 
     if (err) {
 
@@ -90,8 +93,8 @@ router.get("/manage-genres-mangas/:id", (req, res) => {
       res.status(500).send("Erreur lors de l'affichage d'un genresMangas");
     } else {
       console.log(results);
-      res.json(results);
-      res.sendStatus(200);
+      res.status(200).json(results);
+      // res.sendStatus(200);
     }
   });
 
