@@ -197,7 +197,7 @@ router.post("/login", (req, res) => {
     if (err) {
       res.status(500).send("Email inexistant ou mauvais mot de passe");
     } else {
-      const tokenUserInfo = {id: results[0].id, lastname: results[0].lastname, email: userEmail, droits: results[0].droits}
+      const tokenUserInfo = {id: results[0].id, lastname: results[0].lastname, firstname: results[0].firstname ,email: userEmail, droits: results[0].droits}
       const token = jwt.sign(tokenUserInfo, jwtSecret, (err, token) => {
         res.json({
           token
