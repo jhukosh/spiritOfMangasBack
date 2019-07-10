@@ -121,5 +121,11 @@ router.get("/manage-final-order-archive-manga", (req,res) => {
     })
 })
 
+connexion.get("/manage-list-user-archive", (req,res) => {
+
+    confirm.query('')
+})
+
+
 
 module.exports = router
