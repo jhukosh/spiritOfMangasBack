@@ -87,6 +87,31 @@ router.get("/get-promotions/:id", (req, res) => {
   })
 })
 
+// Get orders by States and id. Panier
+
+router.get("/get-mangas-order/:mangaId/:statesId", (req, res) => {
+
+  const mangaId= req.params.mangaId
+  const statesId = req.params.statesId
+  
+  connexion.query(`SELECT states.name, statesMangas.prixTTC, mangas.title, 
+                  mangas.tome, mangas.weight, mangas.photoCover, mangas.auteur 
+                  FROM statesMangas 
+                  JOIN states 
+                  ON states.id = statesMangas.states_id 
+                  JOIN mangas  
+                  ON mangas.id = statesMangas.mangas_id 
+                  WHERE mangas.id = ${mangaId} and statesMangas.id = ${statesId}`, (err,results) => {
+
+                    if(err){
+                      res.status(500).send("Erreur lors de la récupération des mangas")
+                    } else {
+                      res.status(200).json(results)
+                    }
+
+                  })
+                })
+
 /* POST */
 
 router.post("/manage-states-stock", (req, res) => {
