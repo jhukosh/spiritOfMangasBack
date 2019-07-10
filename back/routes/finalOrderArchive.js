@@ -25,8 +25,9 @@ router.get("/manage-final-order-archive", (req,res) => {
     connexion.query(`SELECT packs.namePack, packs.photoPack
                     FROM packsOrders 
                     JOIN packs 
+                    ON packsOrders.packs_id = packs.id
                     JOIN finalOrders 
-                    ON packsOrders.packs_id = packs.id 
+                    ON packsOrders.id = finalOrders.packsOrders_id 
                     WHERE treated = 1`, (err, results) => {
 
         if (err) {
@@ -38,8 +39,9 @@ router.get("/manage-final-order-archive", (req,res) => {
             connexion.query(`SELECT users.firstname, users.lastname
                             FROM packsOrders
                             JOIN users
-                            JOIN finalOrders
                             ON packsOrders.users_id = users.id
+                            JOIN finalOrders
+                            ON packsOrders.id = finalOrders.packsOrders_id
                             WHERE treated = 1`, (err, results) => {
                 if (err) {
                     console.log(err)
@@ -74,9 +76,11 @@ router.get("/manage-final-order-archive-manga", (req,res) => {
     connexion.query(`SELECT mangas.title, mangas.tome 
                     FROM statesMangas 
                     JOIN mangas 
+                    ON mangas.id = statesMangas.mangas_id 
                     JOIN mangasOrders 
-                    JOIN finalOrders 
                     ON mangasOrders.statesMangas_id = statesMangas.id 
+                    JOIN finalOrders
+                    ON finalOrders.mangasOrders_id = mangasOrders.id 
                     WHERE treated = 1`, (err, results) => {
 
         if (err) {
@@ -88,8 +92,9 @@ router.get("/manage-final-order-archive-manga", (req,res) => {
             connexion.query(`SELECT users.firstname, users.lastname
                             FROM mangasOrders
                             JOIN users
-                            JOIN finalOrders
                             ON mangasOrders.users_id = users.id
+                            JOIN finalOrders
+                            ON finalOrders.mangasOrders_id = mangasOrders.id
                             WHERE treated = 1`, (err, results) => {
                 if (err) {
                     console.log(err)
