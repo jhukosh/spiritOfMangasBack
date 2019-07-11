@@ -123,7 +123,7 @@ router.get("/manage-final-order-archive-manga", (req,res) => {
 
 router.get("/manage-list-user-archive", (req,res) => {
 
-    let archivelistUser = [];
+    let archivelistUser;
 
     connexion.query(`SELECT users.firstname, users.lastname
                     FROM users
@@ -136,8 +136,7 @@ router.get("/manage-list-user-archive", (req,res) => {
                         if(err) {
                             res.status(500).send("Erreur lors de l'affichage de toutes les clients") 
                         } else {
-
-                            archivelistUser.push(results)
+                            archivelistUser = results
 
                             connexion.query(`SELECT users.firstname, users.lastname
                                             FROM users
@@ -150,7 +149,14 @@ router.get("/manage-list-user-archive", (req,res) => {
                                                 if(err) {
                                                     res.status(500).send("Erreur lors de l'affichage de toutes les clients") 
                                                 } else {
-                                                    archivelistUser.push(results)
+                                                    for(let i =0; i < results.length; i++){
+                                                        console.log(results)
+                                                        if(!archivelistUser.includes(results[i].firstname)){
+                                                            archivelistUser.push(results[i])
+                                                        } else {
+                                                            console.log('Le client est déja présent.')
+                                                        }
+                                                    }
                                                     res.json(archivelistUser)
                                                 }
                                             })
