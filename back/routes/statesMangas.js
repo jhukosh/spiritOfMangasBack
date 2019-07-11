@@ -73,7 +73,7 @@ router.get("/get-promotions/:id", (req, res) => {
 
   const mangaId= req.params.id
 
-  connexion.query(`SELECT title, tome, photoCover, tome, resume, stock, promo, promoValue, prixTTC 
+  connexion.query(`SELECT statesMangas.id, title, tome, photoCover, tome, resume, stock, promo, promoValue, prixTTC 
                   FROM statesMangas 
                   JOIN mangas ON mangas_id=mangas.id
                   WHERE promo=1 AND mangas.id=${mangaId}`, (err, results) => {
