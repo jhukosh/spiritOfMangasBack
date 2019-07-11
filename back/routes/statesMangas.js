@@ -109,8 +109,8 @@ router.get("/get-mangas-order/:mangaId/:statesId", (req, res) => {
                       res.status(200).json(results)
                     }
 
-                  })
-                })
+  })
+})
 
 /* POST */
 
