@@ -189,8 +189,6 @@ router.post("/login", (req, res) => {
   const userEmail = req.body.email
   const userPw = req.body.password
 
-  console.log(userEmail)
-
   connexion.query(`SELECT * FROM users WHERE email="${userEmail}" AND password="${userPw}"`, (err, results) => {
     if (err) {
       res.status(500).send("Email inexistant ou mauvais mot de passe");
