@@ -58,7 +58,6 @@ router.post("/create-profile", (req, res) => {
 
   const userData = req.body;
   const userMail = req.body.email
-  console.log('userMail', userData.email)
 
   connexion.query(`SELECT email FROM users WHERE email = '${userMail}'`, (err, results) => {
     if (err) {
@@ -69,7 +68,6 @@ router.post("/create-profile", (req, res) => {
       res.status(409, 'L\'email existe déja dans la base de donnée')
     } 
     else {
-      console.log(results)
       connexion.query('INSERT INTO users SET ?', [userData], (err, results) => {
         if (err) {
           console.log(err);
