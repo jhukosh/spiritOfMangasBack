@@ -121,9 +121,39 @@ router.get("/manage-final-order-archive-manga", (req,res) => {
     })
 })
 
-connexion.get("/manage-list-user-archive", (req,res) => {
+router.get("/manage-list-user-archive", (req,res) => {
 
-    confirm.query('')
+    let archivelistUser = [];
+
+    connexion.query(`SELECT users.firstname, users.lastname
+                    FROM users
+                    JOIN mangasOrders
+                    ON users.id = mangasOrders.users_id
+                    JOIN finalOrders
+                    ON mangasOrders.id = finalOrders.mangasOrders_id
+                    WHERE treated = 1`, (err, results) => {
+                        if(err) {
+                            res.status(500).send("Erreur lors de l'affichage de toutes les clients") 
+                        } else {
+
+                            archivelistUser.push(results)
+
+                            connexion.query(`SELECT users.firstname, users.lastname
+                                            FROM users
+                                            JOIN packsOrders
+                                            ON users.id = packsOrders.users_id
+                                            JOIN finalOrders
+                                            ON packsOrders.id = finalOrders.packsOrders_id
+                                            WHERE treated = 1`, (err, results) => {
+                                                if(err) {
+                                                    res.status(500).send("Erreur lors de l'affichage de toutes les clients") 
+                                                } else {
+                                                    archivelistUser.push(results)
+                                                    res.json(archivelistUser)
+                                                }
+                                            })
+                                                }
+                                        })
 })
 
 
