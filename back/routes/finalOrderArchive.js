@@ -131,7 +131,8 @@ router.get("/manage-list-user-archive", (req,res) => {
                     ON users.id = mangasOrders.users_id
                     JOIN finalOrders
                     ON mangasOrders.id = finalOrders.mangasOrders_id
-                    WHERE treated = 1`, (err, results) => {
+                    WHERE treated = 1
+                    GROUP BY users.firstname`, (err, results) => {
                         if(err) {
                             res.status(500).send("Erreur lors de l'affichage de toutes les clients") 
                         } else {
@@ -144,7 +145,8 @@ router.get("/manage-list-user-archive", (req,res) => {
                                             ON users.id = packsOrders.users_id
                                             JOIN finalOrders
                                             ON packsOrders.id = finalOrders.packsOrders_id
-                                            WHERE treated = 1`, (err, results) => {
+                                            WHERE treated = 1
+                                            GROUP BY users.firstname`, (err, results) => {
                                                 if(err) {
                                                     res.status(500).send("Erreur lors de l'affichage de toutes les clients") 
                                                 } else {
