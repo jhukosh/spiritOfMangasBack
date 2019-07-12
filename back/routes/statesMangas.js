@@ -73,7 +73,7 @@ router.get("/get-promotions/:id", (req, res) => {
 
   const mangaId= req.params.id
 
-  connexion.query(`SELECT title, tome, photoCover, tome, resume, promo, promoValue, prixTTC 
+  connexion.query(`SELECT statesMangas.id, title, tome, photoCover, tome, resume, stock, promo, promoValue, prixTTC 
                   FROM statesMangas 
                   JOIN mangas ON mangas_id=mangas.id
                   WHERE promo=1 AND mangas.id=${mangaId}`, (err, results) => {
@@ -84,6 +84,31 @@ router.get("/get-promotions/:id", (req, res) => {
         console.log(results)
         res.status(200).json(results)
       }
+  })
+})
+
+// Get orders by States and id. Panier
+
+router.get("/get-mangas-order/:mangaId/:statesId", (req, res) => {
+
+  const mangaId= req.params.mangaId
+  const statesId = req.params.statesId
+  
+  connexion.query(`SELECT states.name, statesMangas.prixTTC, mangas.title, 
+                  mangas.tome, mangas.weight, mangas.photoCover, mangas.auteur 
+                  FROM statesMangas 
+                  JOIN states 
+                  ON states.id = statesMangas.states_id 
+                  JOIN mangas  
+                  ON mangas.id = statesMangas.mangas_id 
+                  WHERE mangas.id = ${mangaId} and statesMangas.id = ${statesId}`, (err,results) => {
+
+                    if(err){
+                      res.status(500).send("Erreur lors de la récupération des mangas")
+                    } else {
+                      res.status(200).json(results)
+                    }
+
   })
 })
 
