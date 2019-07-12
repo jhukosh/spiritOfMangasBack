@@ -58,7 +58,6 @@ router.post("/create-profile", (req, res) => {
 
   const userData = req.body;
   const userMail = req.body.email
-  console.log('userMail', userData.email)
 
   connexion.query(`SELECT email FROM users WHERE email = '${userMail}'`, (err, results) => {
     if (err) {
@@ -69,7 +68,6 @@ router.post("/create-profile", (req, res) => {
       res.status(409, 'L\'email existe déja dans la base de donnée')
     } 
     else {
-      console.log(results)
       connexion.query('INSERT INTO users SET ?', [userData], (err, results) => {
         if (err) {
           console.log(err);
@@ -191,13 +189,11 @@ router.post("/login", (req, res) => {
   const userEmail = req.body.email
   const userPw = req.body.password
 
-  console.log(userEmail)
-
   connexion.query(`SELECT * FROM users WHERE email="${userEmail}" AND password="${userPw}"`, (err, results) => {
     if (err) {
       res.status(500).send("Email inexistant ou mauvais mot de passe");
     } else {
-      const tokenUserInfo = {lastname: results[0].lastname, email: userEmail, droits: results[0].droits}
+      const tokenUserInfo = {id: results[0].id, lastname: results[0].lastname, firstname: results[0].firstname ,email: userEmail, droits: results[0].droits}
       const token = jwt.sign(tokenUserInfo, jwtSecret, (err, token) => {
         res.json({
           token
