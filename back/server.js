@@ -35,6 +35,7 @@ app.use("/packsAwaiting", routes.packsAwaiting)
 app.use("/genresMangas", routes.genresMangas)
 app.use("/statesMangas", routes.statesMangas)
 app.use("/finalOrder", routes.finalOrder)
+app.use("/finalOrderArchive", routes.finalOrderArchive)
 app.use("/search", routes.search)
 
 app.get("/", (req, res) => {
