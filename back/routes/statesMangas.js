@@ -29,6 +29,26 @@ router.get("/manage-states-stock", (req, res) => {
   
   })
 
+
+// GET mangasStates by ID 
+
+router.get("/manage-states-mangas/:id", (req, res) => {
+
+  const mangaId= req.params.id
+
+  connexion.query('SELECT * FROM statesMangas WHERE mangas_id =' + mangaId, (err, results) => {
+
+    if (err) {
+      console.log(err);
+      res.status(500).send("Erreur lors de l'affichage de toutes les séries");
+    } else {
+      console.log(results);
+      res.status(200).json(results);
+    }
+  });
+
+})
+
 // Get mangas declared as favorite in back-office
 
 router.get("/get-favorites", (req, res) => {
