@@ -16,10 +16,12 @@ const genresMangas = require('./genresMangas');
 const statesMangas = require('./statesMangas');
 const finalOrder = require('./finalOrder');
 const finalOrderArchive = require('./finalOrderArchive');
+const search = require('./search');
 
 
 module.exports = { users, mangas, packs, publics, 
                     series, types, genres, states,
                     statesPack, packsMangas, packsOrders, 
                     commandsMangas, genresMangas, mangasAwaiting, 
-                    packsAwaiting, statesMangas, finalOrder, finalOrderArchive };
+                    packsAwaiting, statesMangas, finalOrder, finalOrderArchive, search };
+                   

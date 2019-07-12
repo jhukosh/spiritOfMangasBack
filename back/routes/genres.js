@@ -40,7 +40,6 @@ router.post("/manage-genres", (req, res) => {
   router.delete("/manage-genres", (req, res) => {
 
     const genreId = req.body.id
-    console.log(genreId)
 
     connexion.query('DELETE FROM genres WHERE id='+ genreId, (err, results) => {
 
