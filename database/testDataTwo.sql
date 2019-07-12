@@ -201,10 +201,27 @@ INSERT INTO users (pseudo, firstname, lastname, password, forgetPassword, email,
 
 -- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-INSERT INTO packs (namePack, photoPack, resumePack, stock, weight, prixPublic, promo, prixPromo, notrePrix, tomes) VALUES 
-('L\'Attaque des Titans, le commencement', 'http://fr.web.img4.acsta.net/pictures/17/02/15/17/33/286530.jpg','Le monde appartient désormais aux Titans, des êtres gigantesques qui ont presque décimé l’Humanité. Voilà une centaine d’années, les derniers rescapés ont bâti une place forte, une cité cernée d’une haute muraille au sein de laquelle vivent aujourd’hui leurs descendants. Parqués, ignorants tout du monde extérieur, ils s’estiment au moins à l’abri de ces effroyables êtres qui ne feraient d’eux qu’une bouchée. Hélas, cette illusion de sécurité vole en éclats le jour où surgit un Titan démesuré...', 1, 768, 32, 1, 22, 25, 6),
-('La totale', 'https://i.ytimg.com/vi/h98blVbubaI/maxresdefault.jpg', 'Tous nos mangas avec des gros nichons ', 1, 1024, 380, 0, NULL, 199, NULL);
+INSERT INTO packs (namePack, photoPack, resumePack, stock, weight, prixPublic, promo, notrePrix ) VALUES 
 
+('LIFE', 'http://www.spiritofmanga.com/images/produits/fiches/20199-1.jpg', 'Ayumu est une collégienne aux résultats scolaires médiocres. Heureusement sa meilleure amie, la brillante Shii, est toujours là pour l aider et la soutenir. 
+Elles se promettent d aller toutes les deux dans un lycée prestigieux et étudient ensemble pour passer l examen d entrée. Mais quand Ayumu est reçue et que Shii échoue, 
+leur belle amitié vole en éclat.', 1, 600, 66, 0, 41.90 ),
+('NANA', 'http://www.spiritofmanga.com/images/produits/fiches/8764-1.jpg', 'La première est rêveuse, rigolote et sensible, mais « coeur d artichaut », un brin capricieuse et loin d´être indépendante.
+ La seconde est plus mature, déterminée, un peu mystérieuse mais peut être d une froideur qui glace le dos.
+Toutes deux s appellent « Nana », ont un attrait pour l art et ont vécu en province.', 1, 600, 62.50, 0, 39.90),
+('Détective conan', 'http://www.spiritofmanga.com/images/series/fiches/manga-detective-conan.jpg', 'Shinichi Kudô est un lycéen de Teitan, réputé pour son aide auprès de la police japonaise afin de 
+résoudre de difficiles affaire.', 1, 600 , 62, 0, 39),
+('One-Punch Man', 'http://www.spiritofmanga.com/images/series/fiches/manga-one-punch-man.jpg', 'Saitama est un jeune homme sans emploi et sans réelle perspective d avenir, 
+jusqu au jour où il décide de prendre sa vie en main.', 1, 600 , 62, 0, 39),
+('Pokemon !', 'http://www.spiritofmanga.com/images/series/fiches/manga-pokemon.jpg', 'Nos jeunes héros sont prêts à tout pour devenir les meilleurs éleveurs de Pokémon de la planète. Pour cela, 
+il faut en attraper le plus possible, les entrainer pour les livrer à des combats durant lesquels ils vont prendre du galon.', 1, 600 , 62, 0, 39),
+('Death Note', 'http://www.spiritofmanga.com/images/series/fiches/manga-death-note.jpg', 'Celui-ci donnerai le pouvoir de tuer quiconque dont on connaitrait le nom et le visage.
+C est ainsi que Light entra dans une série de meurtres afin de créer un monde utopique sans criminels sous le pseudo de Kira.', 1, 600 , 62, 0, 39),
+('Full Metal Alchemist', 'http://www.spiritofmanga.com/images/series/fiches/manga-fullmetal-alchemist-edition-reliee.jpg', 'Edward et Alphonse sont deux frères maîtrisant le mystérieux pouvoir de l alchimie. Suite à la tentaive de résurrection de leur mère, Edward a perdu sa jambe et Alphonse son corps complet. Alors que tout semblait perdu, 
+Edward réussit à fixer l âme de son frère dans une armure géante,', 1, 600 , 62, 0, 39),
+('Naruto First Generation', 'http://www.spiritofmanga.com/images/series/fiches/manga-naruto.jpg', 'Naruto Uzumaki n est pas un ninja comme les autres.', 1, 600 , 62, 0, 39),
+('Ramna 1/2', 'http://www.spiritofmanga.com/images/produits/fiches/3415-1.jpg', 'Un jeune garçon et son père, tous deux adeptes des arts martiaux effectuent un voyage initiatique en Chine. Au cours d un de leurs exercices rituels, ils plongent malencontreusement dans un lac aux propriétés mystérieuses. 
+Suite à cette baignade forcée, certains bouleversements vont s opérer dans leurs structures corporelles. ', 1, 600 , 62, 0, 39);
 -- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 INSERT INTO packsMangas (mangas_id, packs_id) VALUES (2 ,1), (3 ,1), (4 ,1);
@@ -230,9 +247,9 @@ INSERT INTO mangasAwaiting (mangas_id, users_id) VALUES (1, 2);
 INSERT INTO statesMangas (states_id, mangas_id, commentaire, stock, favorite, promo, promoValue, prixHT, TVA, prixTTC) VALUES 
 (1, 2, 'lorem blabla', 1, true, true, 20, 12, 20, 14.4),
 (3, 3, 'lorem blabla', 1, false, true, 20, 12, 20, 14.4),
-(3, 3, 'lorem blabla', 1, false, true, 20, 12, 20, 14.4),
-(3, 3, 'lorem blabla', 1, true, true, 20, 12, 20, 14.4),
-(3, 3, 'lorem blabla', 1, true, true, 20, 12, 20, 14.4);
+(3, 12, 'lorem blabla', 1, false, true, 20, 12, 20, 14.4),
+(3, 9, 'lorem blabla', 1, true, true, 20, 12, 20, 14.4),
+(3, 16, 'lorem blabla', 1, true, true, 20, 12, 20, 14.4);
 
 -- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
