@@ -249,7 +249,9 @@ INSERT INTO statesMangas (states_id, mangas_id, commentaire, stock, favorite, pr
 (3, 3, 'lorem blabla', 1, false, true, 20, 12, 20, 14.4),
 (3, 12, 'lorem blabla', 1, false, true, 20, 12, 20, 14.4),
 (3, 9, 'lorem blabla', 1, true, true, 20, 12, 20, 14.4),
-(3, 16, 'lorem blabla', 1, true, true, 20, 12, 20, 14.4);
+(3, 16, 'lorem blabla', 1, true, true, 20, 12, 20, 7.8),
+(3, 32, 'lorem blabla', 1, true, true, 20, 12, 20, 8.4),
+(3, 48, 'lorem blabla', 1, true, true, 20, 12, 20, 12.4);
 
 -- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
