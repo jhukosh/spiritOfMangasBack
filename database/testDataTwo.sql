@@ -193,8 +193,8 @@ INSERT INTO mangasAwaiting (mangas_id, users_id) VALUES (1, 1);
 -- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 INSERT INTO users (pseudo, firstname, lastname, password, forgetPassword, email, telephone, numRue, rue, cp, ville, connaissance, newsletter, droits) VALUES 
-('MangaLovers', 'Adolf', 'Hitler', 'iLovePologne', 'forgetPasswordKeys', 'angryGuy@germany.de', 0681232452, 1, 'Platz der Republik', 11011, 'Berlin', 'Mes services de renseignements', 1, 'users'),
-('ourMangas', 'Joseph','Stalin', 'goulag34', 'forgetPasswordKeys', 'sexyStach@redmail.ru', 0671273654, 10, 'rue du Kremlin', 103073, 'Moscou', 'Le KGB', 1, 'users'),
+('MangaLovers', 'Pierre', 'Vincent', 'iLoveGaming', 'forgetPasswordKeys', 'pvincent@gmail.com', 0681232452, 1, 'Place de la Republique', 75011, 'Paris', 'Amis', 1, 'users'),
+('ourMangas', 'Valentin','Roger', 'rogerrabbit', 'forgetPasswordKeys', 'val@hotmail.fr', 0671273654, 10, 'rue du code', 75013, 'Paris', 'Google', 1, 'users'),
 ('paulka1','paul','charensol','lamartine','lamartine','charensolp@gmail.com',0670361178,23,'Marco',75019,'Paris','ojn',0,'admin');
 
 
