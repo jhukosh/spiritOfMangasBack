@@ -205,7 +205,6 @@ router.put("/promote-on-home/:id", (req, res) => {
 
 router.put("/unpromote-on-home/:id", (req, res) => {
   const mangaId = req.params.id
-  console.log('id or not id ? ' + mangaId)
 
   connexion.query(`UPDATE statesMangas SET favorite=0 WHERE mangas_id=${mangaId}`, (err, results) => {
     if (err) {
