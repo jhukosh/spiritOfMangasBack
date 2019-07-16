@@ -106,10 +106,42 @@ router.get("/filter-types/:id", (req, res) => {
 router.get("/filter-packs-types/:id", (req, res) => {
 
     const typeId = req.params.id
+    let result = []
 
     // query to get packs containing mangas of sent type
 
-    connexion.query()
+    connexion.query(`SELECT mangas.id
+                    FROM genresSeries 
+                    JOIN series 
+                    ON series.id = genresSeries.series_id
+                    JOIN mangas
+                    ON mangas.series_id=series.id
+                    WHERE genres_id = ${typeId}`, (err, results) => {
+        if (err) {
+            console.log(err)
+            res.status(500)
+        } else {
+                results.forEach(element => {
+                    connexion.query(`SELECT namePack, photoPack 
+                                   FROM packsMangas
+                                   JOIN packs
+                                   ON packs.id=packsMangas.packs_id
+                                   JOIN mangas
+                                   ON mangas.id=packsMangas.mangas_id
+                                   WHERE mangas.id=${element.id}
+                                   GROUP BY namePack`, (err, results) => {
+                        if (err) {
+                            console.log(err)
+                            res.status(500)
+                        } else {
+                            results.filter(item => {
+                                item === [] || result.includes(item) ? null : result.push(results[0]) && res.status(200).json(result)
+                        })
+                    }
+                })
+            });
+        }
+    })
 
 })
 
