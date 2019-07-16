@@ -11,6 +11,8 @@ router.use(bodyParser.urlencoded({
 
 router.use(bodyParser.json());
 
+// filter mangas by genre
+
 router.get("/filter-genres/:id", (req, res) => {
 
     const genreId = req.params.id
@@ -32,10 +34,38 @@ router.get("/filter-genres/:id", (req, res) => {
     })
 })
 
+// filter packs by genre
+
+router.get("/filter-packs-genres/:id", (req, res) => {
+
+    const genreId = req.params.id
+
+    connexion.query(`SELECT mangas.id, mangas.photoCover, mangas.title, mangas.tome 
+                    FROM genresSeries 
+                    JOIN series 
+                    ON series.id = genresSeries.series_id
+                    JOIN mangas
+                    ON mangas.series_id=series.id
+                    JOIN packsMangas
+                    ON mangas.id = packsMangas.mangas_id
+                    JOIN packs
+                    ON packs.id = packsMangas.packs_id
+                    WHERE genres_id = ${genreId}`, (err, results) => {
+        if (err) {
+            console.log(err)
+            res.status(500)
+        } else {
+            console.log(results)
+            res.status(200).json(results)
+        }
+    })
+})
+
+// filter mangas by types
+
 router.get("/filter-types/:id", (req, res) => {
 
     const typeId = req.params.id
-    console.log(typeId)
 
     connexion.query(`SELECT mangas.id, mangas.photoCover, mangas.title, mangas.tome 
                     FROM types
@@ -53,5 +83,16 @@ router.get("/filter-types/:id", (req, res) => {
         }
     })
 })
+
+// filter packs by type
+
+router.get("/filter-packs-types/:id", (req, res) => {
+
+    const typeId = req.params.id
+
+    connexion.query()
+
+})
+
 
 module.exports = router
