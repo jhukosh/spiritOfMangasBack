@@ -27,11 +27,10 @@ router.post("/manage-genres-mangas/:genreId/:serieId", (req, res) => {
 
     if (err) {
 
-      console.log(err, 'malheur');
+      console.log(err);
       res.status(500).send("Erreur lors de la création d'un genresMangas");
     } else {
-      console.log(results);
-      res.status(200);
+      res.status(200).json(results);
     }
   });
 
@@ -41,20 +40,16 @@ router.post("/manage-genres-mangas/:genreId/:serieId", (req, res) => {
 
 router.delete("/manage-genres-mangas/:id", (req, res) => {
 
-  // const genresMangasId = req.body.id
   const genresSeriesId = req.params.id
 
-  console.log(genresSeriesId)
-
   connexion.query(`DELETE FROM genresSeries WHERE id=${genresSeriesId}`, (err, results) => {
-
 
     if (err) {
 
       console.log(err);
       res.status(500).send("Erreur lors de la suppression d'un genresMangas");
     } else {
-      res.status(200);
+      res.status(200).json(results);
     }
   });
 
@@ -73,7 +68,6 @@ router.get("/manage-genres-mangas", (req, res) => {
     } else {
       console.log(results);
       res.json(results);
-      // res.sendStatus(200);
     }
   });
 
