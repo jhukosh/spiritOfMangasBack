@@ -43,7 +43,7 @@ router.get("/filter-packs-genres/:id", (req, res) => {
 
     // query to get packs containing mangas of sent kind
 
-    connexion.query(`SELECT mangas.id, mangas.photoCover, mangas.title, mangas.tome 
+    connexion.query(`SELECT mangas.id
                     FROM genresSeries 
                     JOIN series 
                     ON series.id = genresSeries.series_id
@@ -54,28 +54,29 @@ router.get("/filter-packs-genres/:id", (req, res) => {
             console.log(err)
             res.status(500)
         } else {
-            let len = results.length
-            for (let i = 0; i < len; i++){
-                connexion.query(`SELECT namePack, photoPack 
-                                FROM packsMangas
-                                JOIN packs
-                                ON packs.id=packsMangas.packs_id
-                                JOIN mangas
-                                ON mangas.id=packsMangas.mangas_id
-                                WHERE mangas.id=${results[i].id}
-                                GROUP BY namePack`, (err, results) => {
-                    if (err) {
-                        console.log(err)
-                        res.status(500)
-                    } else {
-                        result.push(results)
-                        result.length === len ? res.status(200).json(result) : null
+                results.forEach(element => {
+                    connexion.query(`SELECT namePack, photoPack 
+                                   FROM packsMangas
+                                   JOIN packs
+                                   ON packs.id=packsMangas.packs_id
+                                   JOIN mangas
+                                   ON mangas.id=packsMangas.mangas_id
+                                   WHERE mangas.id=${element.id}
+                                   GROUP BY namePack`, (err, results) => {
+                        if (err) {
+                            console.log(err)
+                            res.status(500)
+                        } else {
+                            results.filter(item => {
+                                item === [] || result.includes(item) ? null : result.push(results[0]) && res.status(200).json(result)
+                        })
                     }
                 })
-            }
+            });
         }
     })
 })
+
 
 // filter mangas by types
 
