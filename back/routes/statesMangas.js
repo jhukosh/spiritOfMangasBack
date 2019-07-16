@@ -132,6 +132,33 @@ router.get("/get-mangas-order/:mangaId/:statesId", (req, res) => {
   })
 })
 
+
+router.get("/get-user-choices", (req, res) => {
+  const datas = JSON.parse(req.query.datas)
+  let result = []
+  let len = datas.length
+
+  for (let i=0; i < len; i++) {
+
+    connexion.query(`SELECT states.name, statesMangas.prixTTC, mangas.title, 
+    mangas.tome, mangas.weight, mangas.photoCover, mangas.auteur 
+    FROM statesMangas 
+    JOIN states 
+    ON states.id = statesMangas.states_id 
+    JOIN mangas  
+    ON mangas.id = statesMangas.mangas_id 
+    WHERE mangas.id = ${datas[i].manga} and statesMangas.id = ${datas[i].state}`, (err,results) => {
+
+      if(err){
+        res.status(500).send("Erreur lors de la récupération des mangas")
+      } else {
+        result.push(results)
+        i === len - 1 ? res.status(200).json(result) : console.log('not done')
+      }
+    })
+  }
+})
+
 /* POST */
 
 router.post("/manage-states-stock", (req, res) => {
@@ -178,7 +205,6 @@ router.put("/promote-on-home/:id", (req, res) => {
 
 router.put("/unpromote-on-home/:id", (req, res) => {
   const mangaId = req.params.id
-  console.log('id or not id ? ' + mangaId)
 
   connexion.query(`UPDATE statesMangas SET favorite=0 WHERE mangas_id=${mangaId}`, (err, results) => {
     if (err) {
