@@ -134,8 +134,7 @@ router.get("/manage-packs-mangas/:id", (req, res) => {
 router.put("/manage-packs-mangas", (req, res) => {
   const packsMangasId = req.body.id
   const packsMangasData = req.body
-  console.log(packsMangasId)
-  console.log(packsMangasData)
+
 
   connexion.query('UPDATE packsMangas SET ? WHERE id='+ packsMangasId, [packsMangasData], (err, results) => {
 

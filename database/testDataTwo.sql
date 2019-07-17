@@ -52,7 +52,10 @@ C est ainsi qu il décide de prendre la mer sur la route de tous les périls ave
 Lorsque Trisha Elric succomba à sa maladie, ses deux enfants, Edward et Alphonse, tentèrent de lui rendre la vie grâce à un complexe et illégal recourt, la transmutation humaine...'),
 
 ('Ranma 1/2', 19, 'http://www.spiritofmanga.com/images/series/fiches/manga-ranma-12.jpg', 'Un jeune garçon et son père, tous deux adeptes des arts martiaux effectuent un voyage initiatique en Chine. Au cours d un de leurs exercices rituels, ils plongent malencontreusement 
-dans un lac aux propriétés mystérieuses. Suite à cette baignade forcée, certains bouleversements vont s opérer dans leurs structures corporelles.');
+dans un lac aux propriétés mystérieuses. Suite à cette baignade forcée, certains bouleversements vont s opérer dans leurs structures corporelles.'),
+
+('Dragon Ball', 19, 'https://www.spiritofmanga.com/images/series/fiches/manga-dragon-ball-france-loisirs.jpg', 'C est LA référence des amateurs de mangas, au succès colossal. Épopée fantastique, parcours initiatique d un enfant vers l âge adulte, 
+une saga-fleuve génialement inventive, bondissante, pleine d humour, idéale pour s initier au genre.');
 
 -- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 

@@ -31,22 +31,6 @@ const verifToken = req => {
   return null;
 };
 
-/* function from tuto 
-
-const verifyToken = (req, res, next) => {
-  const bearerHeader = req.headers['authorization'];
-
-  if(typeof bearerHeader !== 'undefined') {
-    const bearer = bearerHeader.split(' ');
-    const bearerToken = bearer[1]; 
-    req.token = bearerToken;
-    next();
-  } else {
-    res.sendStatus(403);
-  }
-}
-
-*/
 
 // *******************************************  
 // ****************** Query ******************
@@ -83,9 +67,10 @@ router.post("/create-profile", (req, res) => {
 
 // Delete an user in UsersDB
 
-router.delete("/delete-users", (req, res) => {
-
-  const userId = req.body.id
+router.delete("/delete-users/:id", (req, res) => {
+  console.log('BODY',req.params.id)
+  
+  const userId = req.params.id
   console.log(userId)
 
   connexion.query('DELETE FROM users WHERE id=' + userId, (err, results) => {
@@ -95,7 +80,7 @@ router.delete("/delete-users", (req, res) => {
       console.log(err);
       res.status(500).send("Erreur lors de la suppression de l'utilisateur");
     } else {
-      res.sendStatus(200);
+      res.status(200).json(results);
     }
   });
 
