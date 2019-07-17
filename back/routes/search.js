@@ -40,6 +40,8 @@ router.get("/filter-packs-genres/:id", (req, res) => {
 
     const genreId = req.params.id
     let result = []
+    let i = 0
+    let quit = 0
 
     // query to get packs containing mangas of sent kind
 
@@ -55,9 +57,8 @@ router.get("/filter-packs-genres/:id", (req, res) => {
             res.status(500)
         } else {
                 let len = results.length
-                let i = 0
                 results.forEach(element => {
-                    i += 1
+                    i = i + 1
                     connexion.query(`SELECT namePack, photoPack 
                                    FROM packsMangas
                                    JOIN packs
@@ -72,9 +73,10 @@ router.get("/filter-packs-genres/:id", (req, res) => {
                         } else {
                             results.filter(item => {
                                 item === [] || result.includes(item) ? null : result.push(results[0])
-                                console.log(len)
-                                console.log(i)
-                                i === len ? res.status(200).json(result) : null
+                                if (i === len && quit === 0) {
+                                    quit++
+                                    res.status(200).json(result)
+                                }                                
                         })
                     }
                 })
@@ -113,6 +115,8 @@ router.get("/filter-packs-types/:id", (req, res) => {
 
     const typeId = req.params.id
     let result = []
+    let i = 0
+    let quit = 0
 
     // query to get packs containing mangas of sent type
 
@@ -127,21 +131,27 @@ router.get("/filter-packs-types/:id", (req, res) => {
             console.log(err)
             res.status(500)
         } else {
-                results.forEach(element => {
-                    connexion.query(`SELECT namePack, photoPack 
-                                   FROM packsMangas
-                                   JOIN packs
-                                   ON packs.id=packsMangas.packs_id
-                                   JOIN mangas
-                                   ON mangas.id=packsMangas.mangas_id
-                                   WHERE mangas.id=${element.id}
-                                   GROUP BY namePack`, (err, results) => {
-                        if (err) {
-                            console.log(err)
-                            res.status(500)
-                        } else {
-                            results.filter(item => {
-                                item === [] || result.includes(item) ? null : result.push(results[0]) && res.status(200).json(result)
+            let len = results.length
+            results.forEach(element => {
+                i = i + 1
+                connexion.query(`SELECT namePack, photoPack 
+                                FROM packsMangas
+                                JOIN packs
+                                ON packs.id=packsMangas.packs_id
+                                JOIN mangas
+                                ON mangas.id=packsMangas.mangas_id
+                                WHERE mangas.id=${element.id}
+                                GROUP BY namePack`, (err, results) => {
+                    if (err) {
+                        console.log(err)
+                        res.status(500)
+                    } else {
+                        results.filter(item => {
+                            item === [] || result.includes(item) ? null : result.push(results[0])
+                            if (i === len && quit === 0) {
+                                quit++
+                                res.status(200).json(result)
+                            } 
                         })
                     }
                 })
