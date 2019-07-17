@@ -80,7 +80,7 @@ router.get("/manage-packs", (req, res) => {
 
 router.get("/manage-packs/:id", (req, res) => {
 
-  const packId = req.body.id
+  const packId = req.params.id
 
   connexion.query('SELECT * FROM packs WHERE id=' + packId, (err, results) => {
 
@@ -90,7 +90,8 @@ router.get("/manage-packs/:id", (req, res) => {
       res.status(500).send("Erreur lors de l'affichage d'un pack");
     } else {
       console.log(results);
-      res.sendStatus(200);
+      res.json(results);
+      res.status(200);    
     }
   });
 
