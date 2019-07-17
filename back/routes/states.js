@@ -20,7 +20,7 @@ router.use(bodyParser.json());
 router.post("/manage-states/:name", (req, res) => {
 
     const stateData = req.params.name;
-    console.log(stateData)
+    
     connexion.query(`INSERT INTO states (name) VALUES ("${stateData}")`, (err, results) => {
   
       if (err) {
