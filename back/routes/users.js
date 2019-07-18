@@ -16,6 +16,19 @@ router.use(bodyParser.urlencoded({
   extended: true
 }));
 
+let transporter = nodemailer.createTransport({
+  host: 'smtp.mail.gmail.com',
+  port: 465,
+  service:'gmail',
+  secure: false,
+  auth: {
+      user: "juliahukoshi@gmail.com",
+      pass: "symetry1988"
+  }, 
+  debug: false,
+  logger: true
+});
+
 router.use(bodyParser.json());
 
 
@@ -310,27 +323,26 @@ router.post("/protected", (req, res, next) => {
 // forgotten password
 
 router.post("/forgottenPassword", (req, res) => {
-  const userMail = req.body.userMail;
+  const userMail = req.body.email;
 
-  connection.query(`SELECT email, forgetPassword FROM users WHERE email = '${userMail}'`, (err, results) => {
+  connexion.query(`SELECT email, forgetPassword FROM users WHERE email = '${userMail}'`, (err, results) => {
     if (err) {
       console.log(err);
       res.status(500).send("Erreur lors de la vérification de l'email");
     } else {
 
-      console.log(results[0].forgotPassword)
-
       transporter.sendMail({
         from: "Spirit of manga", // Expediteur
-        to: userMail, // Destinataires
+        to: userMail, // Destinataire
         subject: "Récupération de votre mot de passe", // Sujet
         text: `Ce mail vous est envoyé par Spirit Of manga. Cliquez sur le lien suivant pour continuer la procédure : 
-        http://localhost:4200/TzApeyaNpBzRJmGrit59K4NJ5Cy/${results[0].forgotPassword}`, // plaintext body
+        http://localhost:4200/TzApeyaNpBzRJmGrit59K4NJ5Cy/${results[0].forgetPassword}`, // plaintext body
       }, (error, response) => {
           if(error) {
-              console.log(error);
+            console.log(error);
           } else {
-              console.log("Message sent: " + response.message);
+            console.log("Message sent: " + response.message);
+            res.status(200)
           }
       });
     }
