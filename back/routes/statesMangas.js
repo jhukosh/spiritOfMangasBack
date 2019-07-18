@@ -49,6 +49,31 @@ router.get("/manage-states-mangas/:id", (req, res) => {
 
 })
 
+// Get statesMangas search 
+
+router.get("/search-statesmangas/:title", (req, res) => {
+
+  const statesMangaTitle = req.params.title;
+  const search = '%' + statesMangaTitle + '%';
+
+  connexion.query(`SELECT * FROM statesMangas  
+                  JOIN mangas ON statesMangas.mangas_id = mangas.id 
+                  WHERE favorite=0 
+                  AND stock !=0
+                  AND title LIKE` + '"' + search + '"' , 
+                  (err, results) => {
+
+    if (err) {
+      console.log(err);
+      res.status(500).send("Erreur lors de la récupération d'un manga");
+    } else {
+      console.log(results);
+      res.json(results);
+      res.status(200);
+    }
+  });
+})
+
 // Get mangas declared as favorite in back-office
 
 router.get("/get-favorites", (req, res) => {
@@ -192,6 +217,7 @@ router.put("/promote-on-home/:id", (req, res) => {
       res.send(409)
     } else {
       connexion.query(`UPDATE statesMangas SET favorite=1 WHERE mangas_id=${mangaId}`, (err, results) => {
+        console.log('*******mangaID',mangaId)
         if (err) {
           console.log(err);
           res.status(500).send("Erreur lors de la création d'un état");
