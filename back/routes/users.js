@@ -5,6 +5,8 @@ const router = express.Router()
 
 const connexion = require('../conf');
 const jwtSecret = require("../jwtSecret")
+const bcrypt = require("bcrypt");
+const nodemailer = require('nodemailer');
 
 // Body parser module
 
@@ -49,21 +51,105 @@ router.post("/create-profile", (req, res) => {
       console.log(err);
       res.status(500).send("Erreur lors de la vérification de l'email");
     } else if (results.length > 0) {
-      res.status(409, 'L\'email existe déja dans la base de donnée')
+      res.status(409, 'L\'email existe déja dans la base de données')
     } 
     else {
-      connexion.query('INSERT INTO users SET ?', [userData], (err, results) => {
+      bcrypt.hash(userData.password, 10, (err, hash) => {
+        userData.password = hash;
+        if (err) {
+          res.send(err)
+        }
+        payload = {
+          "mail": userMail,
+          "password": userData.password,
+        }
+        const token = jwt.sign(payload, jwtSecret, (err, token) => {
+          userData.forgetPassword = token;
+        
+        connexion.query('INSERT INTO users SET ?', [userData], (err, results) => {
         if (err) {
           console.log(err);
           res.status(500).send("Erreur lors de la creation de l'utilisateur");
         }
         else {
-          res.status(200, 'Utilisateur ajouté a la base de donnée')
+          res.status(200).json(results)
         } 
       });
-    } 
-  });
+    })
+    })
+  }
 });
+})
+
+// Improve route to send an email
+
+// router.post("/", (req, res) => {
+
+//   const userData = req.body['0'];
+//   console.log(userData)
+//   const userMail = req.body['0'].mail
+//   const userDataAddress = req.body['1'];
+
+//   connection.query(`SELECT mail FROM users WHERE mail = '${userMail}'`, (err, results) => {
+//     if (err) {
+//       console.log(err);
+//       res.status(500).send("Erreur lors de la vérification de l'email");
+//     } else if (results.length > 0) {
+//       console.log("L'email existe déjà")
+//       res.status(409, 'L\'email existe déja dans la base de donnée')
+//     } 
+//     else {
+//       // User bcrypt package to crypt user password
+//       bcrypt.hash(userData.password, 10, (err, hash) => {
+//         userData.password = hash; // Hash user password
+//         if (err) {
+//           res.send('error ', err)
+//         }
+//         payload = {
+//           "mail": userMail,
+//           "password": userData.password,
+//         }
+//         const token = jwt.sign(payload, jwtSecret, (err, token) => {
+//           userData.forgotPassword = token;
+//           connection.query('INSERT INTO users SET ?', userData, (err, results) => {
+//             if (err) {
+//               console.log(err);
+//               res.status(500).send("Erreur lors de la création de l'utilisateur");
+//             }
+//             else {
+//               connection.query(`SELECT idUsers FROM users WHERE mail = '${userMail}'`, (err, results) => {
+//                 userDataAddress.idUsers = results['0'].idUsers;
+//                 connection.query('INSERT INTO userAddress SET ?', [userDataAddress], (err, results) => {
+//                   if (err) {
+//                     console.log(err);
+//                     res.status(500).send("Erreur lors de la création de l'utilisateur");
+//                   }
+//                   else {
+//                     transporter.sendMail({
+//                       from: "OhMyFood", // Expediteur
+//                       to: userMail, // Destinataires
+//                       subject: "Création de votre compte", // Sujet
+//                       text: `Merci d'avoir créé un compte chez OhMyFood, vous pourrez désormais accéder au service de commande en ligne de l'application avec votre adresse mail ${userMail}`, // plaintext body
+//                     }, (error, response) => {
+//                         if(error){
+//                             console.log(error);
+//                         }else{
+//                             console.log("Message sent: " + response.message);
+//                         }
+//                     });
+//                     res.sendStatus(200)
+//                   } 
+//                 });
+//               });
+//             } 
+//           });
+//         });
+//       })
+//     } 
+//   });
+// });
+
+
 
 // Delete an user in UsersDB
 
@@ -143,7 +229,6 @@ router.get("/get-users/:id", (req, res) => {
 
 })
 
-
 // Change pseudo of an user in UsersDB
 // IMPORTANT : new value MUST in req must be push with the '' to match MYSQL syntax
 // PUT method is better than POST when working with existing value
@@ -160,7 +245,6 @@ router.put("/edit-profile", (req, res) => {
       console.log(err);
       res.status(500).send("Erreur lors de la modification de données");
     } else {
-      console.log(results);
       res.sendStatus(200);
     }
   });
@@ -174,19 +258,32 @@ router.post("/login", (req, res) => {
   const userEmail = req.body.email
   const userPw = req.body.password
 
-  connexion.query(`SELECT * FROM users WHERE email="${userEmail}" AND password="${userPw}"`, (err, results) => {
+  connexion.query(`SELECT password FROM users WHERE email = '${userEmail}'`, (err, results) => {
+    if (results[0].length === 0) {
+      res.status(401).send("Vous n'avez pas de compte");
+    }
     if (err) {
-      res.status(500).send("Email inexistant ou mauvais mot de passe");
+      res.send('error ' + err);
     } else {
-      const tokenUserInfo = {id: results[0].id, lastname: results[0].lastname, firstname: results[0].firstname ,email: userEmail, droits: results[0].droits}
-      const token = jwt.sign(tokenUserInfo, jwtSecret, (err, token) => {
-        res.json({
-          token
-        })
+
+      if (bcrypt.compareSync(userPw, results[0].password) || userPw === results[0].password) {
+
+      connexion.query(`SELECT * FROM users WHERE email="${userEmail}" AND password="${results[0].password}"`, (err, results) => {
+        if (err) {
+          res.status(500).send("Email inexistant ou mauvais mot de passe");
+        } else {
+          const tokenUserInfo = {id: results[0].id, lastname: results[0].lastname, firstname: results[0].firstname, email: userEmail, droits: results[0].droits}
+          const token = jwt.sign(tokenUserInfo, jwtSecret, (err, token) => {
+            res.json({
+              token
+            })
+          })
+          res.header("Access-Control-Expose-Headers", "x-access-token")
+          res.set("x-access-token", token)
+          res.status(200)
+        }
       })
-      res.header("Access-Control-Expose-Headers", "x-access-token")
-      res.set("x-access-token", token)
-      res.status(200)
+    }
     }
   })
 })
@@ -209,5 +306,35 @@ router.post("/protected", (req, res, next) => {
     return res.status(200).send({mess: 'Données du user', objectTests })
   })
 })
+
+// forgotten password
+
+router.post("/forgottenPassword", (req, res) => {
+  const userMail = req.body.userMail;
+
+  connection.query(`SELECT email, forgetPassword FROM users WHERE email = '${userMail}'`, (err, results) => {
+    if (err) {
+      console.log(err);
+      res.status(500).send("Erreur lors de la vérification de l'email");
+    } else {
+
+      console.log(results[0].forgotPassword)
+
+      transporter.sendMail({
+        from: "Spirit of manga", // Expediteur
+        to: userMail, // Destinataires
+        subject: "Récupération de votre mot de passe", // Sujet
+        text: `Ce mail vous est envoyé par Spirit Of manga. Cliquez sur le lien suivant pour continuer la procédure : 
+        http://localhost:4200/TzApeyaNpBzRJmGrit59K4NJ5Cy/${results[0].forgotPassword}`, // plaintext body
+      }, (error, response) => {
+          if(error) {
+              console.log(error);
+          } else {
+              console.log("Message sent: " + response.message);
+          }
+      });
+    }
+  });
+});
 
 module.exports = router
