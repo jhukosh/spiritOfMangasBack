@@ -336,7 +336,7 @@ router.post("/forgottenPassword", (req, res) => {
         to: userMail, // Destinataire
         subject: "Récupération de votre mot de passe", // Sujet
         text: `Ce mail vous est envoyé par Spirit Of manga. Cliquez sur le lien suivant pour continuer la procédure : 
-        http://localhost:4200/TzApeyaNpBzRJmGrit59K4NJ5Cy/${results[0].forgetPassword}`, // plaintext body
+        http://localhost:4200/front/TzApeyaNpBzRJmGrit59K4NJ5Cy/${results[0].forgetPassword}`, // plaintext body
       }, (error, response) => {
           if(error) {
             console.log(error);
