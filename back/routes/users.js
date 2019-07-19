@@ -349,4 +349,38 @@ router.post("/forgottenPassword", (req, res) => {
   });
 });
 
+// set new password
+
+router.put("/new-password", (req, res) => {
+  const userData = req.body
+  const userToken = userData.email
+
+  bcrypt.hash(userData.password, 10, (err, hash) => {
+    userData.password = hash;
+    if (err) {
+      res.send(err)
+    }
+    payload = {
+      "mail": userData.email,
+      "password": userData.password,
+    }
+    const token = jwt.sign(payload, jwtSecret, (err, token) => {
+      userData.forgetPassword = token;
+    
+    connexion.query(`UPDATE users SET password='${userData.password}', forgetPassword='${userData.forgetPassword}' WHERE forgetPassword='${userToken}'`, (err, results) => {
+      if (err) {
+        console.log(err);
+        res.status(500).send("Erreur lors de la creation de l'utilisateur");
+      }
+      else {
+        res.status(200).json(results)
+      } 
+    });
+  })
+})
+
+
+
+})
+
 module.exports = router
