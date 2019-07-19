@@ -367,13 +367,20 @@ router.put("/new-password", (req, res) => {
     const token = jwt.sign(payload, jwtSecret, (err, token) => {
       userData.forgetPassword = token;
     
-    connexion.query(`UPDATE users SET password='${userData.password}', forgetPassword='${userData.forgetPassword}' WHERE forgetPassword='${userToken}'`, (err, results) => {
+    connexion.query(`UPDATE users SET password='${userData.password}' WHERE forgetPassword='${userToken}'`, (err, results) => {
       if (err) {
         console.log(err);
         res.status(500).send("Erreur lors de la creation de l'utilisateur");
       }
       else {
-        res.status(200).json(results)
+        connexion.query(`UPDATE users SET forgetPassword='${userData.forgetPassword}' WHERE password='${userData.password}'`, (err, results) => {
+          if (err) {
+            console.log(err);
+            res.status(500).send("Erreur lors de la creation de l'utilisateur");
+          } else {
+            res.status(200).json(results)
+          }
+        })
       } 
     });
   })
