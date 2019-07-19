@@ -342,7 +342,7 @@ router.post("/forgottenPassword", (req, res) => {
             console.log(error);
           } else {
             console.log("Message sent: " + response.message);
-            res.status(200)
+            res.status(200).json(results)
           }
       });
     }
