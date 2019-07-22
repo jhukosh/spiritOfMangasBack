@@ -23,8 +23,8 @@ let transporter = nodemailer.createTransport({
   secure: false,
   auth: {
     // to set before test
-      user: "juliahukoshi@gmail.com", 
-      pass: "symetry1988"
+      user: "****", 
+      pass: "****"
   }, 
   debug: false,
   logger: true
