@@ -23,8 +23,8 @@ let transporter = nodemailer.createTransport({
   secure: false,
   auth: {
     // to set before test
-      user: "****", 
-      pass: "*****"
+      user: "juliahukoshi@gmail.com", 
+      pass: "symetry1988"
   }, 
   debug: false,
   logger: true
@@ -168,10 +168,8 @@ router.post("/create-profile", (req, res) => {
 // Delete an user in UsersDB
 
 router.delete("/delete-users/:id", (req, res) => {
-  console.log('BODY',req.params.id)
   
   const userId = req.params.id
-  console.log(userId)
 
   connexion.query('DELETE FROM users WHERE id=' + userId, (err, results) => {
 
@@ -209,7 +207,6 @@ router.get("/manage-users", (req, res) => {
 
 router.get('/display-user/:email', (req, res) => {
   const userMail = "'" + req.params.email + "'"
-  console.log('mail : ' + userMail)
 
   connexion.query(`SELECT * FROM users WHERE email=${userMail}`, (err, results) => {
     if (err) {
@@ -241,6 +238,24 @@ router.get("/get-users/:id", (req, res) => {
     }
   });
 
+})
+
+// Fetch forgetPassword for the reset password page guard
+
+router.get("/get-forget-password-token/:token", (req, res) => {
+
+  const token = req.params.token
+
+  connexion.query(`SELECT forgetPassword FROM users WHERE forgetPassword='${token}'`, (err, results) => {
+
+    if (err) {
+      console.log(err);
+      res.status(500).send("Erreur lors de la modification de données");
+    } else {
+      console.log(results)
+      res.status(200).json(results)
+    }
+  })
 })
 
 // Change pseudo of an user in UsersDB
@@ -368,27 +383,24 @@ router.put("/new-password", (req, res) => {
     const token = jwt.sign(payload, jwtSecret, (err, token) => {
       userData.forgetPassword = token;
     
-    connexion.query(`UPDATE users SET password='${userData.password}' WHERE forgetPassword='${userToken}'`, (err, results) => {
-      if (err) {
-        console.log(err);
-        res.status(500).send("Erreur lors de la creation de l'utilisateur");
-      }
-      else {
-        connexion.query(`UPDATE users SET forgetPassword='${userData.forgetPassword}' WHERE password='${userData.password}'`, (err, results) => {
-          if (err) {
-            console.log(err);
-            res.status(500).send("Erreur lors de la creation de l'utilisateur");
-          } else {
-            res.status(200).json(results)
-          }
-        })
-      } 
-    });
+      connexion.query(`UPDATE users SET password='${userData.password}' WHERE forgetPassword='${userToken}'`, (err, results) => {
+        if (err) {
+          console.log(err);
+          res.status(500).send("Erreur lors de la creation de l'utilisateur");
+        }
+        else {
+          connexion.query(`UPDATE users SET forgetPassword='${userData.forgetPassword}' WHERE password='${userData.password}'`, (err, results) => {
+            if (err) {
+              console.log(err);
+              res.status(500).send("Erreur lors de la creation de l'utilisateur");
+            } else {
+              res.status(200).json(results)
+            }
+          })
+        } 
+      });
+    })
   })
-})
-
-
-
 })
 
 module.exports = router
