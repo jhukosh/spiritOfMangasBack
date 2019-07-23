@@ -120,7 +120,7 @@ CREATE TABLE IF NOT EXISTS `spiritofmanga`.`statesMangas` (
   `stock` INT NOT NULL,
   `favorite` TINYINT(1) NULL,
   `promo` TINYINT(1) NOT NULL,
-  `promoValue` INT NULL,
+  `promoValue` INT NULL DEFAULT 0,
   `prixHT` INT NOT NULL,
   `TVA` INT NOT NULL,
   `prixTTC` INT NOT NULL,
